@@ -1,2 +1,2 @@
 # Homework
-This is my homeworks, i'm dumb
+This is my homework, i'm dumb
