@@ -7,14 +7,12 @@ int binarySearch(int array[], int begin, int end, int number)
 {
 	if (begin > end)
 	{
-		printf("Число %i не найдено\n", number);
-		return 1;
+		return 0;
 	}
-	int middle = (end + begin) / 2;
+	const int middle = (end + begin) / 2;
 	if (array[middle] == number)
 	{
-		printf("Число %i содержится в данном массиве\n", number);
-		return 0;
+		return 1;
 	}
 	if (array[middle] > number)
 	{
@@ -32,7 +30,7 @@ int tests()
 	int array1[6] = { 1, 5, 3, 5, 1, 5 };
 	quickSort(array1, 0, 5);
 	int number = binarySearch(array1, 0, 5, 1);
-	if (number == 0)
+	if (number == 1)
 	{
 		printf("Тест 1 пройден успешно\n");
 	}
@@ -44,7 +42,7 @@ int tests()
 	int array2[1] = { 5 };
 	quickSort(array2, 0, 0);
 	number = binarySearch(array2, 0, 0, 5);
-	if (number == 0)
+	if (number == 1)
 	{
 		printf("Тест 2 пройден успешно\n");
 	}
@@ -56,7 +54,7 @@ int tests()
 	int array3[5] = { 1, 1, 1, 1, 1 };
 	quickSort(array3, 0, 4);
 	number = binarySearch(array3, 0, 4, 5);
-	if (number == 1)
+	if (number == 0)
 	{
 		printf("Тест 3 пройден успешно\n");
 	}
@@ -95,7 +93,7 @@ int main()
 	for (int i = 0; i < k; i++)
 	{
 		int number = 2000 * rand() / RAND_MAX - 1000;
-		binarySearch(array, 0, n - 1, number);
+		binarySearch(array, 0, n - 1, number) ? printf("%i найден в массиве\n", number) : printf("%i не найден в массиве\n", number);
 	}
 	free(array);
 }
