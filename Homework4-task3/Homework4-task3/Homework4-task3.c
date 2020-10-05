@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 
 struct person
 {
@@ -8,9 +9,42 @@ struct person
 	char name[20];
 };
 
+void writeInFile(char fileName[], struct person phoneBook[], int indexInPresent)
+{
+	FILE* fileOpen = fopen(fileName, "w");
+	for (int i = 0; i < indexInPresent; i++)
+	{
+		fprintf(fileOpen, "%i %s\n", phoneBook[i].number, phoneBook[i].name);
+	}
+	fclose(fileOpen);
+}
 
+int numberSearching(int* indexInPresent, struct person phoneBook[], char* name)
+{
+	for (int i = 0; i < *indexInPresent; i++)
+	{
+		if (strcmp(&phoneBook[i].name, name) == 0)
+		{
+			return phoneBook[i].number;
+		}
+	}
+	return -1337;
+}
 
-void contactAddition(int *indexInPresent, struct person* phoneBook)
+int nameSearching(int* indexInPresent, struct person phoneBook[], int number)
+{
+	int index = -1337;
+	for (int i = 0; i < *indexInPresent; i++)
+	{
+		if (phoneBook[i].number == number)
+		{
+			return i;
+		}
+	}
+	return index;
+}
+
+void contactAddition(int *indexInPresent, struct person phoneBook[])
 {
 	if (*indexInPresent >= 99)
 	{
@@ -19,10 +53,10 @@ void contactAddition(int *indexInPresent, struct person* phoneBook)
 		return;
 	}
 	printf("Введите имя пользователя: ");
-	scanf("%s", phoneBook[*indexInPresent].name);
-	printf("Ввведите мобильный номер %s's: ", *phoneBook[*indexInPresent].name);
-	scanf("%i", phoneBook[*indexInPresent].number);
-	*indexInPresent++;
+	scanf("%s", &phoneBook[*indexInPresent].name);
+	printf("Ввведите мобильный номер %s's: ", phoneBook[*indexInPresent].name);
+	scanf("%i", &phoneBook[*indexInPresent].number);
+	(*indexInPresent)++;
 }
 
 int main(void)
@@ -52,6 +86,7 @@ int main(void)
 	printf("4 - найти имя по телефону\n");
 	printf("5 - сохранить текущие данные в файл\n");
 	int number = 1;
+	printf("%i", indexOfPhoneBook);
 	while (number != 0)
 	{
 		printf("Выберете номер команды: ");
@@ -60,15 +95,56 @@ int main(void)
 		{
 		case 0:
 			break;
+
 		case 1:
-			contactAddition(&indexOfPhoneBook, &phonebook);
+			contactAddition(&indexOfPhoneBook, phonebook);
 			break;
+
 		case 2:
 			for (int i = 0; i < indexOfPhoneBook; i++)
 			{
 				printf("%i - %s\n", phonebook[i].number, phonebook[i].name);
 			}
 			break;
+
+		case 3:
+		{
+			char name[20];
+			printf("Введите имя человека, чей телефон вы хотите узнать: ");
+			scanf("%s", &name);
+			if (numberSearching(&indexOfPhoneBook, phonebook, &name) == -1337)
+			{
+				printf("%s не зарегистрирован в телефонной книжке\n", name);
+			}
+			else
+			{	
+				int desiredNumber = numberSearching(&indexOfPhoneBook, phonebook, &name);
+				printf("Номер по имени %s: %i\n", name, desiredNumber);
+			}
+			break;
+		}
+
+		case 4:
+		{
+			int desiredNumber = 0;
+			printf("Введите номер: ");
+			scanf("%i", &desiredNumber);
+
+			if (nameSearching(&indexOfPhoneBook, phonebook, desiredNumber) == -1337)
+			{
+				printf("Нет зарегистрированного в телефонной книжке по такому номеру\n");
+			}
+			else
+			{	
+				int index = nameSearching(&indexOfPhoneBook, phonebook, desiredNumber);
+				printf("Имя по номеру %i: %s\n", phonebook[index].number, phonebook[index].name);
+			}
+			break;
+		}
+		case 5:
+			writeInFile("phoneBook.txt", phonebook, indexOfPhoneBook);
+			break;
+
 		default:
 			number = 0;
 			break;
