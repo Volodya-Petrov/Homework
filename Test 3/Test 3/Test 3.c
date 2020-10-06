@@ -2,7 +2,7 @@
 #include <locale.h>
 
 int main(void)
-{	
+{
 	setlocale(LC_ALL, "rus");
 	int countOfSymbols[256];
 	for (int i = 0; i < 256; i++)
@@ -17,7 +17,7 @@ int main(void)
 	char charInReal = "";
 	FILE* fileOpen = fopen("test.txt", "r");
 	while ((charInReal = fgetc(fileOpen)) != EOF)
-	{	
+	{
 		int checkForFound = 0;
 		for (int i = 0; i < 256; i++)
 		{
@@ -49,5 +49,12 @@ int main(void)
 			max = i;
 		}
 	}
-	printf("Самый часто встречаемый символ в файле : %c ", symbols[max]);
+	if (countOfSymbols[max] == 0)
+	{
+		printf("Файл пуст");
+	}
+	else
+	{
+		printf("Самый часто встречаемый символ в файле : %c ", symbols[max]);
+	}
 }
