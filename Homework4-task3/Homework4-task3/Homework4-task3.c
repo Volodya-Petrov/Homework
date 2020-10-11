@@ -1,32 +1,38 @@
-﻿#include <stdio.h>
+﻿#include "terehovJokes.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
-#include "terehovjokes.h"
+#include <stdbool.h>
 
-struct person // структура котакта, которая имеет два поля: номер и имя
+#define FAIL_IN_FUNCTION -1337
+
+// структура контакта, которая имеет два поля: номер и имя
+struct Person
 {
 	int number;
 	char name[20];
 };
 
-int structCompare(struct person array1[], struct person array2[], int index) // проверяет эквивалентность двух массивов структур до i элемента
+// проверяет эквивалентность двух массивов структур до i элемента
+bool structCompare(struct Person array1[], struct Person array2[], int index)
 {
 	for (int i = 0; i < index; i++)
 	{
 		if (array1[i].number != array2[i].number)
 		{
-			return 1;
+			return false;
 		}
-		if (strcmp(&array1[i].name, &array2[i].name) != 0)
+		if (strcmp(array1[i].name, array2[i].name) != 0)
 		{
-			return 1;
+			return false;
 		}
 	}
-	return 0;
+	return true;
 }
 
-void readFromFile(char fileName[] , struct person array[], int *indexOfArray) // функция для считывания данных с файла в массив структур
+// структура контакта, которая имеет два поля: номер и имя
+void readFromFile(const char fileName[] , struct Person array[], int *indexOfArray)
 {
 	FILE* fileOpen = fopen(fileName, "r");
 	int index = *indexOfArray;
@@ -42,7 +48,8 @@ void readFromFile(char fileName[] , struct person array[], int *indexOfArray) //
 	fclose(fileOpen);
 }
 
-void writeInFile(char fileName[], struct person phoneBook[], int indexInPresent) // функция для записи данных с массива структур в файл
+// функция для записи данных с массива структур в файл
+void writeInFile(const char fileName[], struct Person phoneBook[], int indexInPresent)
 {
 	FILE* fileOpen = fopen(fileName, "w");
 	for (int i = 0; i < indexInPresent; i++)
@@ -52,32 +59,34 @@ void writeInFile(char fileName[], struct person phoneBook[], int indexInPresent)
 	fclose(fileOpen);
 }
 
-int numberSearching(int* indexInPresent, struct person phoneBook[], char* name) // поиск телефонного номера по имени в массиве структур
+// поиск телефонного номера по имени в массиве структур
+int numberSearching(int indexInPresent, struct Person phoneBook[], char* name)
 {
-	for (int i = 0; i < *indexInPresent; i++)
+	for (int i = 0; i < indexInPresent; i++)
 	{
-		if (strcmp(&phoneBook[i].name, name) == 0)
+		if (strcmp(phoneBook[i].name, name) == 0)
 		{
 			return phoneBook[i].number;
 		}
 	}
-	return -1337;
+	return FAIL_IN_FUNCTION;
 }
 
-int nameSearching(int* indexInPresent, struct person phoneBook[], int number) // поиск имени по телефонному номеру в массиве структур
+// поиск имени по телефонному номеру в массиве структур
+int nameSearching(int indexInPresent, struct Person phoneBook[], int number)
 {
-	int index = -1337;
-	for (int i = 0; i < *indexInPresent; i++)
+	for (int i = 0; i < indexInPresent; i++)
 	{
 		if (phoneBook[i].number == number)
 		{
 			return i;
 		}
 	}
-	return index;
+	return FAIL_IN_FUNCTION;
 }
 
-void contactAddition(int* indexInPresent, struct person phoneBook[]) // добавление в массив стурктур нового контакта
+// добавление в массив структуру нового контакта
+void contactAddition(int* indexInPresent, struct Person phoneBook[])
 {
 	if (*indexInPresent >= 99)
 	{
@@ -89,7 +98,7 @@ void contactAddition(int* indexInPresent, struct person phoneBook[]) // доба
 	scanf("%s", &phoneBook[*indexInPresent].name);
 	printf("Ввведите мобильный номер %s's: ", phoneBook[*indexInPresent].name);
 	scanf("%i", &phoneBook[*indexInPresent].number);
-	if (nameSearching(indexInPresent, phoneBook, phoneBook[*indexInPresent].number) != -1337)
+	if (nameSearching(*indexInPresent, phoneBook, phoneBook[*indexInPresent].number) != FAIL_IN_FUNCTION)
 	{
 		printf("Данный номер уже существует.\nОтказано в исполнении\n");
 		return;
@@ -97,68 +106,68 @@ void contactAddition(int* indexInPresent, struct person phoneBook[]) // доба
 	(*indexInPresent)++;
 }
 
-int testNameSearch()
+bool testNameSearch()
 {
-	struct person persons[] = { 123, "Jon", 5555, "Teddy", 666, "Joker" };
+	struct Person persons[] = { {123, "Jon"}, {5555, "Teddy"}, {666, "Joker"} };
 	int indexReal = 3;
-	if (nameSearching(&indexReal, persons, 5555) != 1)
+	if (nameSearching(indexReal, persons, 5555) != 1)
 	{
 		printf("Тест на поиск имени провален\n");
-		return 1;
+		return false;
 	}
-	return 0;
+	return true;
 }
 
-int testNumberSearch()
+bool testNumberSearch()
 {
-	struct person persons[] = { 123, "Jon", 5555, "Teddy", 666, "Joker" };
+	struct Person persons[] = { {123, "Jon"}, {5555, "Teddy"}, {666, "Joker"} };
 	int indexReal = 3;
-	if (numberSearching(&indexReal, persons, "Jon") != 123)
+	if (numberSearching(indexReal, persons, "Jon") != 123)
 	{	
 		printf("Тест на поиск имени провале\n");
-		return 1;
+		return false;
 	}
-	return 0;
+	return true;
 }
 
-int testReadFromFile()
+bool testReadFromFile()
 {	
 	int indexReal = 0;
-	struct person personsTest[] = { 123, "Jon", 5555, "Teddy", 666, "Joker" };
-	struct person persons[100];
+	struct Person personsTest[] = { {123, "Jon"}, {5555, "Teddy"}, {666, "Joker"} };
+	struct Person persons[100];
 	readFromFile("testReadFromFile.txt", persons, &indexReal);
 	if (indexReal != 3)
 	{
 		printf("Тест на чтения данных с файла провален\n");
-		return 1;
+		return false;
 	}
-	if (structCompare(persons, personsTest, indexReal))
+	if (!structCompare(persons, personsTest, indexReal))
 	{
 		printf("Тест на чтения данных с файла провален\n");
-		return 1;
+		return false;
 	}
-	return 0;
+	return true;
 }
 
 int testWriteInFile()
 {
-	struct person personsTest[] = { 123, "Jon", 5555, "Teddy", 666, "Joker" };
+	struct Person personsTest[] = { {123, "Jon"}, {5555, "Teddy"}, {666, "Joker"} };
 	writeInFile("writeInFileTest.txt", personsTest, 3);
-	struct person persons[100];
+	struct Person persons[100];
 	int indexReal = 0;
 	readFromFile("writeInFileTest.txt", persons, &indexReal);
-	if (structCompare(personsTest, persons, indexReal))
+	if (!structCompare(personsTest, persons, indexReal))
 	{
 		printf("Тест на запись провален.\n");
-		return 1;
+		return false;
 	}
-	return 0;
+	return true;
 }
 
 int resultOfTests()
 {
 	int checkForMistakes = 0;
-	checkForMistakes = testWriteInFile() + testReadFromFile() + testNumberSearch() + testNameSearch();
+	checkForMistakes = !testWriteInFile() + !testReadFromFile() + !testNumberSearch() + !testNameSearch();
 	return checkForMistakes;
 }
 
@@ -173,7 +182,7 @@ int main(void)
 	{
 		printf("Тесты пройдены успешно\n");
 	}
-	struct person phoneBook[100];
+	struct Person phoneBook[100];
 	int indexOfPhoneBook = 0;
 	readFromFile("phoneBook.txt", phoneBook, &indexOfPhoneBook);
 	printf("Программа справочник\n");
@@ -210,13 +219,13 @@ int main(void)
 			char name[20];
 			printf("Введите имя человека, чей телефон вы хотите узнать: ");
 			scanf("%s", &name);
-			if (numberSearching(&indexOfPhoneBook, phoneBook, &name) == -1337)
+			if (numberSearching(indexOfPhoneBook, phoneBook, name) == FAIL_IN_FUNCTION)
 			{
 				printf("%s не зарегистрирован в телефонной книжке\n", name);
 			}
 			else
 			{	
-				int desiredNumber = numberSearching(&indexOfPhoneBook, phoneBook, &name);
+				int desiredNumber = numberSearching(indexOfPhoneBook, phoneBook, name);
 				printf("Номер по имени %s: %i\n", name, desiredNumber);
 			}
 			break;
@@ -231,13 +240,13 @@ int main(void)
 				printf("Введите номер: ");
 				scanf("%*s");
 			}
-			if (nameSearching(&indexOfPhoneBook, phoneBook, desiredNumber) == -1337)
+			if (nameSearching(indexOfPhoneBook, phoneBook, desiredNumber) == FAIL_IN_FUNCTION)
 			{
 				printf("Нет зарегистрированного контакта в телефонной книжке по такому номеру\n");
 			}
 			else
 			{	
-				int index = nameSearching(&indexOfPhoneBook, phoneBook, desiredNumber);
+				int index = nameSearching(indexOfPhoneBook, phoneBook, desiredNumber);
 				printf("Имя по номеру %i: %s\n", phoneBook[index].number, phoneBook[index].name);
 			}
 			break;
@@ -248,7 +257,7 @@ int main(void)
 		case 6:
 		{
 			int desiredNumber = 1;
-			printf("Введите номер юморски Терехова, которую хотите услышать (1 - 11): ");
+			printf("Введите номер юморески Терехова, которую хотите услышать (1 - 11): ");
 			while (scanf("%i", &desiredNumber) == 0)
 			{
 				printf("Не корректный ввод данных, повторите попытку\n");
@@ -264,4 +273,3 @@ int main(void)
 		}
 	}
 }
-

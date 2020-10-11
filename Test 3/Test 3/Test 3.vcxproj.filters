@@ -15,16 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Homework4-task3.c">
+    <ClCompile Include="Test 3.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="terehovJokes.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="terehovJokes.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

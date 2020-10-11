@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Homework4-task3.c">
+    <ClCompile Include="Test1.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="terehovJokes.c">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="quickSort.c">
+      <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="terehovJokes.h">
-      <Filter>Исходные файлы</Filter>
+    <ClInclude Include="quickSort.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
