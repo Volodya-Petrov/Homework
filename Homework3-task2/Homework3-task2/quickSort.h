@@ -1,2 +1,5 @@
-int partition(int array[], int begin, int end);
-int quickSort(int array[], int begin, int end);
+#pragma once
+
+int quickSort(int array[], int begin, int end); // функция сортировки массива
+// на вход принимает массив, индекс с которого нужно отсортировать элементы, индекс до которого нужно отсортировать элементы
+

@@ -139,15 +139,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD
 <<<<<<< HEAD:Homework4-task3/Homework4-task3/Homework4-task3.vcxproj
+=======
+<<<<<<<< HEAD:Test 2/Test 2/Test 2.vcxproj
+    <ClCompile Include="Test 2.c" />
+========
+>>>>>>> master
     <ClCompile Include="Homework4-task3.c" />
     <ClCompile Include="terehovJokes.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="terehovJokes.h" />
+<<<<<<< HEAD
 =======
     <ClCompile Include="Test 2.c" />
 >>>>>>> a0f0638a10eb5ff14504f2aff7d5955c5cf01f32:Test 2/Test 2/Test 2.vcxproj
+=======
+>>>>>>>> master:Homework4-task3/Homework4-task3/Homework4-task3.vcxproj
+>>>>>>> master
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
