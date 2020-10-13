@@ -1,3 +1,4 @@
 #pragma once
 
-void jokesAndIntrestingStories(int number); // сборник юморесок с Тереховым
+// сборник юморесок с Тереховым
+void jokesAndIntrestingStories(int number);

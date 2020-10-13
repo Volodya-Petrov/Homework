@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #define FAIL_IN_FUNCTION -1337
+#define LIMIT_INDEX 99
 
 // структура контакта, которая имеет два поля: номер и имя
 struct Person
@@ -31,8 +32,8 @@ bool structCompare(struct Person array1[], struct Person array2[], int index)
 	return true;
 }
 
-// структура контакта, которая имеет два поля: номер и имя
-void readFromFile(const char fileName[] , struct Person array[], int *indexOfArray)
+// читает данные из файла и заносит их в массив
+void readFromFile(const char fileName[], struct Person array[], int *indexOfArray)
 {
 	FILE* fileOpen = fopen(fileName, "r");
 	int index = *indexOfArray;
@@ -88,7 +89,7 @@ int nameSearching(int indexInPresent, struct Person phoneBook[], int number)
 // добавление в массив структуру нового контакта
 void contactAddition(int* indexInPresent, struct Person phoneBook[])
 {
-	if (*indexInPresent >= 99)
+	if (*indexInPresent >= LIMIT_INDEX)
 	{
 		printf("Телефонный справочник полностью забит\n");
 		printf("Нет места для нового контакта\n");
@@ -166,9 +167,7 @@ int testWriteInFile()
 
 int resultOfTests()
 {
-	int checkForMistakes = 0;
-	checkForMistakes = !testWriteInFile() + !testReadFromFile() + !testNumberSearch() + !testNameSearch();
-	return checkForMistakes;
+	return !testWriteInFile() + !testReadFromFile() + !testNumberSearch() + !testNameSearch();
 }
 
 int main(void)
