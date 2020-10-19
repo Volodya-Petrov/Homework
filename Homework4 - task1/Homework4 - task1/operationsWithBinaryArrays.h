@@ -14,5 +14,3 @@ int fromBinaryToInt(int array[]);
 
 // выводит булевый массив/двоичное число
 void showBinaryNumber(int array[]);
-
-

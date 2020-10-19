@@ -3,4 +3,4 @@
 #include <stdbool.h>
 
 //возвращает результат всех тестов
-int testResult(void);
+bool testResult(void);

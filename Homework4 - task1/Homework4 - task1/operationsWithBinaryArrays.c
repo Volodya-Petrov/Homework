@@ -21,7 +21,6 @@ void fromIntToBinary(int array[], int number)
 	}
 }
 
-
 int fromBinaryToInt(int array[])
 {	
 	int multiplier = 1;

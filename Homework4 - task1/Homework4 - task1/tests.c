@@ -70,7 +70,7 @@ bool testForSumInBinary()
 	return true;
 }
 
-int testResult(void)
+bool testResult(void)
 {
 	return !testBinaryToInt() + !testForIntToBinary() + !testForSumInBinary();
 }
