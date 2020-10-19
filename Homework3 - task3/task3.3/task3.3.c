@@ -5,6 +5,35 @@
 #include <time.h>
 #include <locale.h>
 
+// инициализация массива числами из файла
+void arrayInitialization(int array[], const char fileName[])
+{	
+	FILE* fileOpen = fopen(fileName, "r");
+	int numbers = 0;
+	int size = 0;
+	while ((fscanf(fileOpen, "%i", &numbers)) != EOF)
+	{
+		array[size] = numbers;
+		size++;
+	}
+	fclose(fileOpen);
+}
+
+// функция, которая выдает количество чисел в файле
+int countOfElements(const char fileName[])
+{	
+	FILE* fileOpen = fopen(fileName, "r");
+	int size = 0;
+	int trash = 0;
+	while ((fscanf(fileOpen, "%i", &trash)) != EOF)
+	{
+		size++;
+	}
+	fclose(fileOpen);
+	return size;
+}
+
+// поиск максимального элемента в массиве
 int maxFounder(int array[], int size)
 {
 	int number = 0;
@@ -76,6 +105,26 @@ int tests()
 		printf("Тест 3 провален\n");
 		counterMistakes++;
 	}
+	int array4[5] = { 0 };
+	arrayInitialization(array4, "test.txt");
+	if ((array4[0] == 1) && (array4[1] == 3) && (array4[2] == 4) && (array4[3] == 6) && (array4[4] == 5))
+	{
+		printf("Тест 4 пройден успешно\n");
+	}
+	else
+	{
+		printf("Тест 4 провален\n");
+		counterMistakes++;
+	}
+	if (countOfElements("test.txt") == 5)
+	{
+		printf("Тест 5 пройден успешно\n");
+	}
+	else
+	{
+		printf("Тест 5 провален\n");
+		counterMistakes++;
+	}
 	return counterMistakes;
 }
 
@@ -86,30 +135,11 @@ int main(void)
 	{
 		return 1;
 	}
-	FILE* arrayfile;
-	arrayfile = fopen("array.txt", "r");
-	if (arrayfile == NULL)
-	{
-		printf("Не удалось найти файл\n");
-		return 1;
-	}
-	int size = 0;
-	int numbers = 0;
-	while ((fscanf(arrayfile, "%i", &numbers)) != EOF)
-	{
-		size++;
-	}
-	rewind(arrayfile);
+	const int size = countOfElements("array.txt");
 	int* array = (int*)calloc(size, sizeof(int));
-	size = 0;
-	while ((fscanf(arrayfile, "%i", &numbers)) != EOF)
-	{
-		array[size] = numbers;
-		size++;
-	}
-	fclose(arrayfile);
+	arrayInitialization(array, "array.txt");
 	quickSort(array, 0, size - 1);
 	const number = maxFounder(array, size);
-	printf("%i", number);
+	printf("Максимальный элемент = %i", number);
 	free(array);
 }
