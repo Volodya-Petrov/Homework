@@ -50,6 +50,7 @@ bool testBinaryToInt(void)
 		printf("“ест на перевод из двоичной в дес€тичную провален.2\n");
 		return false;
 	}
+	return true;
 }
 
 bool testForSumInBinary()
