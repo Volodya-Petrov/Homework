@@ -59,4 +59,3 @@ void deleteStack(struct Stack** stack)
 	free(*stack);
 	*stack = NULL;
 }
-

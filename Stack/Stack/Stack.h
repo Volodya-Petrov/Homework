@@ -19,5 +19,3 @@ void deleteStack(struct Stack** stack);
 
 // проверка на пустоту стека
 bool isEmpty(struct Stack* stack);
-
-
