@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Stack\Stack\Stack.c" />
+    <ClCompile Include="..\..\Stack\Stack\testForStack.c" />
     <ClCompile Include="dynamicStringReader.c" />
     <ClCompile Include="Homework5 - task2.c" />
     <ClCompile Include="isBalanced.c" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Stack\Stack\Stack.h" />
+    <ClInclude Include="..\..\Stack\Stack\testForStack.h" />
     <ClInclude Include="dynamicStringReader.h" />
     <ClInclude Include="isBalanced.h" />
     <ClInclude Include="testForTask.h" />

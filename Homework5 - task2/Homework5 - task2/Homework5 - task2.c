@@ -1,4 +1,5 @@
 ﻿#include "dynamicStringReader.h"
+#include "..\..\Stack\Stack\testForStack.h"
 #include "isBalanced.h"
 #include "testForTask.h"
 #include <stdio.h>
@@ -11,6 +12,14 @@ int main(void)
 	if (testBrackets())
 	{
 		printf("Тесты на баланс скобок пройдены успешно\n");
+	}
+	else
+	{
+		return 1;
+	}
+	if (bigTest())
+	{
+		printf("Тесты стека пройдены успешно!\n");
 	}
 	else
 	{
