@@ -33,7 +33,7 @@ int fromCharToInt(char symbol)
 
 int isDigit(char symbol)
 {
-	return symbol != -1;
+	return fromCharToInt(symbol) != -1;
 }
 
 int convertStrToInt(char string[], int beginIndex, int endIndex)
@@ -138,11 +138,12 @@ int fromPostfixToInt(char string[], int size)
 			}
 		}
 	}
-	if (isEmpty(stack))
-	{
+	int result = pop(stack);
+	if (!isEmpty(stack))
+	{	
+		printf("Некорректный постфиксный вид\n");
 		return 0;
 	}
-	int result = pop(stack);
 	deleteStack(&stack);
 	return result;
 }
