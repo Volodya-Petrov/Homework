@@ -14,7 +14,13 @@ char* stringReader(int* length)
 		if (*length >= capacity)
 		{
 			capacity *= 2;
-			string = (char*)realloc(string, capacity * sizeof(char));
+			char* temp = (char*)realloc(string, capacity * sizeof(char));
+			if (temp == NULL)
+			{
+				free(string);
+				return NULL;
+			}
+			string = temp;
 		}
 		charInReal = getchar();
 	}
