@@ -1,5 +1,6 @@
 ﻿#include "transformToPostfixForm.h"
 #include "dynamicStringReader.h"
+#include "testForTask.h"
 #include "../../Stack/Stack/testForStack.h"
 #include <stdio.h>
 #include <locale.h>
@@ -7,6 +8,14 @@
 int main(void)
 {	
 	setlocale(LC_ALL, "rus");
+	if (tests())
+	{
+		printf("Тесты для задания пройдены успешно!\n");
+	}
+	else
+	{
+		return 1;
+	}
 	if (bigTest())
 	{
 		printf("Тесты для стека пройдены успешно\n");
