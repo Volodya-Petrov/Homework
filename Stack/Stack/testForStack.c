@@ -6,11 +6,13 @@
 
 bool bigTest(void)
 {	
+	int valueForTest = 0;
 	bool result = true;
 	struct Stack* stack = createStack();
 	push(stack, 9);
 	push(stack, 8);
-	if (pop(stack) != 8)
+	pop(stack, &valueForTest);
+	if (valueForTest != 8 )
 	{
 		printf("Тест зафейлен, поп вернула не то, что ожидалось\n");
 		result = false;
@@ -20,12 +22,13 @@ bool bigTest(void)
 		printf("Тест зафейлен, стек не пуст\n");
 		result = false;
 	}
-	if (pop(stack) != 9)
+	pop(stack, &valueForTest);
+	if (valueForTest != 9)
 	{
 		printf("Тест зафейлен, поп вернула не то, что ожидалось\n");
 		result = false;
 	}
-	if (!isEmpty(stack))
+	if (pop(stack, &valueForTest))
 	{
 		printf("Тест зафейлен, стек пуст");
 	}

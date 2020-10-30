@@ -21,21 +21,25 @@ bool isEmpty(struct Stack* stack)
 struct Stack* createStack(void)
 {
 	struct Stack* newStack = malloc(sizeof(struct Stack));
+	if (newStack == NULL)
+	{
+		return NULL;
+	}
 	newStack->head = NULL;
 	return newStack;
 }
 
-int pop(struct Stack* stack)
+bool pop(struct Stack* stack, int* value)
 {
 	if (stack->head == NULL)
 	{
-		return 0;
+		return false;
 	}
-	int element = stack->head->number;
+	*value = stack->head->number;
 	struct StackElement* oldElement = stack->head;
 	stack->head = stack->head->next;
 	free(oldElement);
-	return element;
+	return true;
 }
 
 void push(struct Stack* stack, int value)
@@ -51,10 +55,11 @@ void push(struct Stack* stack, int value)
 }
 
 void deleteStack(struct Stack** stack)
-{
-	while ((*stack)->head != NULL)
+{	
+	int value;
+	while (pop(*stack, &value))
 	{
-		pop(*stack);
+
 	}
 	free(*stack);
 	*stack = NULL;
