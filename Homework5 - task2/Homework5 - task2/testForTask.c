@@ -1,4 +1,5 @@
 #include "isBalanced.h"
+#include <stdio.h>
 
 bool testBrackets(void)
 {	

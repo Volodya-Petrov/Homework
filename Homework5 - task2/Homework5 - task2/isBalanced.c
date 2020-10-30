@@ -15,28 +15,38 @@ bool isBalanced(char string[], int length)
 			push(bracketStack, (int)'(');
 			break;
 		case ')':
-			if (pop(bracketStack) != (int)'(')
+		{	
+			int getElement = 0;
+			if (!pop(bracketStack, &getElement) || getElement != (int)'(')
 			{
 				result = false;
 			}
 			break;
+		}
 		case '[':
 			push(bracketStack, (int)'[');
 			break;
 		case ']':
-			if (pop(bracketStack) != (int)'[')
+		{
+			int getElement = 0;
+			if (!pop(bracketStack, &getElement) || getElement != (int)'[')
 			{
 				result = false;
 			}
 			break;
+		}
 		case '{':
 			push(bracketStack, (int)'{');
 			break;
 		case '}':
-			if (pop(bracketStack) != (int)'{')
+		{
+			int getElement = 0;
+			if (!pop(bracketStack, &getElement) || getElement != (int)'{')
 			{
 				result = false;
 			}
+			break;
+		}
 			break;
 		default:
 			break;
