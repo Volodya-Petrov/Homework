@@ -7,10 +7,15 @@ char* stringReader(int* length)
 	*length = 0;
 	int capacity = 1;
 	char* string = (char*)malloc(capacity * sizeof(char));
-	char charInReal = getchar();
-	while ( charInReal != '\n')
+	if (string == NULL)
 	{
-		string[(*length)++] = charInReal;
+		return NULL;
+	}
+	char charInReal = getchar();
+	while (charInReal != '\n')
+	{
+		string[*length] = charInReal;
+		(*length)++;
 		if (*length >= capacity)
 		{
 			capacity *= 2;

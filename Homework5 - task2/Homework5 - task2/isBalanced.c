@@ -4,44 +4,52 @@
 #include <stdbool.h>
 
 bool isBalanced(char string[], int length)
-{
+{	
+	bool result = true;
 	struct Stack* bracketStack = createStack();
 	for (int i = 0; i < length; i++)
 	{
 		switch (string[i])
 		{
 		case '(':
-			push(bracketStack, 1);
+			push(bracketStack, (int)'(');
 			break;
 		case ')':
-			if (pop(bracketStack) != 1)
+			if (pop(bracketStack) != (int)'(')
 			{
-				return false;
+				result = false;
 			}
 			break;
 		case '[':
-			push(bracketStack, 2);
+			push(bracketStack, (int)'[');
 			break;
 		case ']':
-			if (pop(bracketStack) != 2)
+			if (pop(bracketStack) != (int)'[')
 			{
-				return false;
+				result = false;
 			}
 			break;
 		case '{':
-			push(bracketStack, 3);
+			push(bracketStack, (int)'{');
 			break;
 		case '}':
-			if (pop(bracketStack) != 3)
+			if (pop(bracketStack) != (int)'{')
 			{
-				return false;
+				result = false;
 			}
 			break;
 		default:
 			break;
 		}
 	}
-	bool result = isEmpty(bracketStack);
-	deleteStack(&bracketStack);
-	return result;
+	if (result && isEmpty(bracketStack))
+	{
+		deleteStack(&bracketStack);
+		return true;
+	}
+	else
+	{
+		deleteStack(&bracketStack);
+		return false;
+	}
 }
