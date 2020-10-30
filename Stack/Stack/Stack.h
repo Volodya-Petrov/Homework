@@ -9,7 +9,7 @@ struct Stack;
 struct Stack* createStack(void);
 
 //Функция для получения значения последнего элемента в стеке
-int pop(struct Stack* stack);
+bool pop(struct Stack* stack, int* value);
 
 // добавление элемента в стек
 void push(struct Stack* stack, int value);
