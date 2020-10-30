@@ -67,81 +67,98 @@ int fromPostfixToInt(char string[], int size)
 			switch (string[i])
 			{
 			case '+':
-			{
-				if (isEmpty(stack))
+			{	
+				int number1 = 0;
+				int number2 = 0;
+				if (!pop(stack, &number1))
 				{	
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				int number = pop(stack);
-				if (isEmpty(stack))
+				if (!pop(stack, &number2))
 				{	
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				number += pop(stack);
+				int number = number1 + number2;
 				push(stack, number);
 				break;
 			}
 			case '-':
 			{
-				if (isEmpty(stack))
+				int number1 = 0;
+				int number2 = 0;
+				if (!pop(stack, &number1))
 				{
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				int number = pop(stack);
-				if (isEmpty(stack))
+				if (!pop(stack, &number2))
 				{
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				number -= pop(stack);
-				number *= -1;
+				int number = number2 - number1;
 				push(stack, number);
 				break;
 			}
 			case '*':
 			{
-				if (isEmpty(stack))
+				int number1 = 0;
+				int number2 = 0;
+				if (!pop(stack, &number1))
 				{
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				int number = pop(stack);
-				if (isEmpty(stack))
+				if (!pop(stack, &number2))
 				{
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				number *= pop(stack);
+				int number = number1 * number2;
 				push(stack, number);
 				break;
-				}
+			}
 			case '/':
 			{
-				if (isEmpty(stack))
+				int number1 = 0;
+				int number2 = 0;
+				if (!pop(stack, &number1))
 				{
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				int number = pop(stack);
-				if (isEmpty(stack))
+				if (!pop(stack, &number2))
 				{
 					printf("Ошибка, невозможная операция\n");
+					deleteStack(&stack);
 					return 0;
 				}
-				number += pop(stack);
+				int number = number2 / number1;
 				push(stack, number);
 				break;
 			}
 			}
 		}
 	}
-	int result = pop(stack);
+	int result = 0;
+	if (!pop(stack, &result))
+	{
+		deleteStack(&stack);
+		return 0;
+	}
 	if (!isEmpty(stack))
 	{	
 		printf("Некорректный постфиксный вид\n");
+		deleteStack(&stack);
 		return 0;
 	}
 	deleteStack(&stack);
