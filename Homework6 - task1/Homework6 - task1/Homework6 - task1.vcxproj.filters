@@ -18,5 +18,13 @@
     <ClCompile Include="Homework6 - task1.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="sortList.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sortList.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
