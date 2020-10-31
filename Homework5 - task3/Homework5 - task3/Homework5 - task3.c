@@ -4,6 +4,7 @@
 #include "../../Stack/Stack/testForStack.h"
 #include <stdio.h>
 #include <locale.h>
+#include <stdlib.h>
 
 int main(void)
 {	

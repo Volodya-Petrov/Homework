@@ -90,31 +90,33 @@ char* infixToPostfix(char* string, int length)
 			}
 			else if (string[i] == ')')
 			{
-				int operator = pop(stackForOper);
+				int operator = 0;
+				pop(stackForOper, &operator);
 				while (operator != (int)'(')
 				{
 					postFixForm[indexInReal] = (char)operator;
 					indexInReal++;
 					postFixForm[indexInReal] = ' ';
 					indexInReal++;
-					operator = pop(stackForOper);
+					pop(stackForOper, &operator);
 				}
 			}
 			else
 			{
 				if (!isEmpty(stackForOper))
 				{	
-					char operOnHead = (char)pop(stackForOper);
-					if (getPriority(string[i]) <= getPriority(operOnHead))
+					int operOnHead = 0;
+					pop(stackForOper, &operOnHead);
+					if (getPriority(string[i]) <= getPriority((char)operOnHead))
 					{
-						postFixForm[indexInReal] = operOnHead;
+						postFixForm[indexInReal] = (char)operOnHead;
 						indexInReal++;
 						postFixForm[indexInReal] = ' ';
 						indexInReal++;
 					}
 					else
 					{
-						push(stackForOper, (int)operOnHead);
+						push(stackForOper, operOnHead);
 					}
 				}
 				push(stackForOper, (int)string[i]);
@@ -122,8 +124,10 @@ char* infixToPostfix(char* string, int length)
 		}
 	}
 	while (!isEmpty(stackForOper))
-	{
-		postFixForm[indexInReal] = (char)pop(stackForOper);
+	{	
+		int operatorsInASCII = 0;
+		pop(stackForOper, &operatorsInASCII);
+		postFixForm[indexInReal] = (char)operatorsInASCII;
 		indexInReal++;
 		if (!isEmpty(stackForOper))
 		{
