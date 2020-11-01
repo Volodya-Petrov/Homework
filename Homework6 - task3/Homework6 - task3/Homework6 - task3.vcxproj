@@ -141,9 +141,11 @@
   <ItemGroup>
     <ClCompile Include="Homework6 - task3.c" />
     <ClCompile Include="List.c" />
+    <ClCompile Include="ListSort.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
+    <ClInclude Include="ListSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

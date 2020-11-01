@@ -17,3 +17,5 @@ bool getValue(struct List* list, int index, int indexInStruct, char string[]);
 bool changeValue(struct List* list, int index, int indexInStruct, char string[]);
 
 void deleteList(struct List** list);
+
+struct List* copy(struct List* list, int beginIndex, int endIndex);

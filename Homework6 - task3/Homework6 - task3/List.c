@@ -225,3 +225,39 @@ void deleteList(struct List** list)
 	free(*list);
 	*list = NULL;
 }
+
+void copyElement(struct List* sourceList, struct List* destinitionList, int beginIndex, int endIndex, int currentIndex)
+{
+	if (beginIndex >= currentIndex && currentIndex <= endIndex)
+	{
+		char name[20] = "\0";
+		char number[20] = "\0";
+		getValue(sourceList, currentIndex, 0, name);
+		getValue(sourceList, currentIndex, 1, number);
+		append(destinitionList, name, number);
+	}
+	if (currentIndex == endIndex)
+	{
+		return;
+	}
+	copyElement(sourceList, destinitionList, beginIndex, endIndex, currentIndex + 1);
+}
+
+struct List* copy(struct List* list, int beginIndex, int endIndex)
+{	
+	if (endIndex - beginIndex < 0)
+	{
+		return NULL;
+	}
+	if (endIndex >= getLength(list) || beginIndex >= getLength(list))
+	{
+		return NULL;
+	}
+	struct List* newList = createList();
+	if (newList == NULL)
+	{
+		return NULL;
+	}
+	copyElement(list, newList, beginIndex, endIndex, 0);
+	return newList;
+}
