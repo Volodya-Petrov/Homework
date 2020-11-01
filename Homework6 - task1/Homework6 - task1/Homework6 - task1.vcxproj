@@ -113,7 +113,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
@@ -141,9 +141,11 @@
   <ItemGroup>
     <ClCompile Include="Homework6 - task1.c" />
     <ClCompile Include="sortList.c" />
+    <ClCompile Include="testForList.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sortList.h" />
+    <ClInclude Include="testForList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
