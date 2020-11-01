@@ -10,10 +10,21 @@ void merge(struct List* list, int beginIndex, int partition, int endIndex)
 	{
 		char name[20] = "\0";
 		char number[20] = "\0";
-		if (i >= getLength(firstPart))
+		if (indexFirstList >= getLength(firstPart))
 		{
 			getValue(secondPart, indexSecondList, 0, name);
-			getValue(secondPart, indexSecondList, 1, name);
+			getValue(secondPart, indexSecondList, 1, number);
+			changeValue(list, i, 0, name);
+			changeValue(list, i, 1, number);
+			indexSecondList++;
+		}
+		if (indexSecondList >= getLength(secondPart))
+		{
+			getValue(firstPart, indexFirstList, 0, name);
+			getValue(firstPart, indexFirstList, 1, number);
+			changeValue(list, i, 0, name);
+			changeValue(list, i, 1, number);
+			indexFirstList++;
 		}
 	}
 }

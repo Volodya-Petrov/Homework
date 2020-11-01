@@ -4,7 +4,7 @@
 
 int main(void)
 {
-	if (strcmp("Aaa", "ab") < 0)
+	if (strcmp("aaa", "ab") < 0)
 	{
 		printf("YES");
 	}
