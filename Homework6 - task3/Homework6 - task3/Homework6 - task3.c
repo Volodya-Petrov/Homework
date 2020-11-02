@@ -1,4 +1,5 @@
 ﻿#include "List.h"
+#include "Tests.h"
 #include "ListSort.h"
 #include "fillingList.h"
 #include <stdio.h>
@@ -11,6 +12,14 @@
 int main(void)
 {	
 	setlocale(LC_ALL, "rus");
+	if (testsResult())
+	{
+		return 1;
+	}
+	else
+	{
+		printf("Тесты пройдены успешно!\n");
+	}
 	struct List* newList = createList();
 	readFromFile(newList, "data.txt");
 	printf("Данные с файла: \n");
