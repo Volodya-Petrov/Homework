@@ -151,19 +151,7 @@ bool getValue(struct List* list, int index, int indexInStruct, char string[])
 	{
 		return false;
 	}
-	if (index == 0)
-	{
-		if (indexInStruct == 0)
-		{
-			strcpy(string, list->head->name);
-		}
-		else
-		{
-			strcpy(string, list->head->number);
-		}
-		return true;
-	}
-	return helperGetValue(list->head->next, index, indexInStruct, string, 1);
+	return helperGetValue(list->head, index, indexInStruct, string, 0);
 }
 
 bool helperChangeValue(struct ListElement* element, int index, int indexInStruct, char string[], int currentIndex)
@@ -228,7 +216,7 @@ void deleteList(struct List** list)
 
 void copyElement(struct List* sourceList, struct List* destinitionList, int beginIndex, int endIndex, int currentIndex)
 {
-	if (beginIndex >= currentIndex && currentIndex <= endIndex)
+	if (beginIndex <= currentIndex && currentIndex <= endIndex)
 	{
 		char name[20] = "\0";
 		char number[20] = "\0";
@@ -260,4 +248,16 @@ struct List* copy(struct List* list, int beginIndex, int endIndex)
 	}
 	copyElement(list, newList, beginIndex, endIndex, 0);
 	return newList;
+}
+
+void printList(struct List* list)
+{
+	for (int i = 0; i < getLength(list); i++)
+	{
+		char name[20] = "\0";
+		char number[20] = "\0";
+		getValue(list, i, 0, name);
+		getValue(list, i, 1, number);
+		printf("%s - %s\n", name, number);
+	}
 }
