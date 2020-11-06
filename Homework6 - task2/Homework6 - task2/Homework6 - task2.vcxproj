@@ -141,11 +141,11 @@
   <ItemGroup>
     <ClCompile Include="Homework6 - task2.c" />
     <ClCompile Include="List.c" />
-    <ClCompile Include="positionFounder.c" />
+    <ClCompile Include="Tests.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
-    <ClInclude Include="positionFounder.h" />
+    <ClInclude Include="Tests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

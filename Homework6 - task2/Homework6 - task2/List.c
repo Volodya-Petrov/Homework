@@ -149,6 +149,10 @@ void deleteList(struct List** list)
 
 int getPos(int count, int period)
 {
+	if (count <= 0 || period <= 0)
+	{
+		return -1;
+	}
 	struct List* list = createList();
 	if (list == NULL)
 	{

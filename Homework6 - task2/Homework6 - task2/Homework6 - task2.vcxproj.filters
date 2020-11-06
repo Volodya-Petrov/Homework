@@ -21,7 +21,7 @@
     <ClCompile Include="List.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="positionFounder.c">
+    <ClCompile Include="Tests.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="List.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="positionFounder.h">
+    <ClInclude Include="Tests.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
