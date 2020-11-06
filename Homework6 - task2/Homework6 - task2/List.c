@@ -27,22 +27,20 @@ struct List* createList()
 	return newList;
 }
 
-int helperGetLength(struct List* list, struct ListElement* element)
-{
-	if (element->next == list->head)
-	{
-		return 1;
-	}
-	return 1 + helperGetLength(list, element->next);
-}
-
 int getLength(struct List* list)
 {
 	if (list->head == NULL)
 	{
 		return 0;
 	}
-	return helperGetLength(list, list->head);
+	int result = 1;
+	struct ListElement* currentElement = list->head->next;
+	while (currentElement != list->head)
+	{
+		result++;
+		currentElement = currentElement->next;
+	}
+	return result;
 }
 
 bool append(struct List* list, int value)
@@ -66,19 +64,6 @@ bool append(struct List* list, int value)
 	return true;
 }
 
-int helperIndexOf(struct List* list, struct ListElement* element, int value, int currentIndex)
-{
-	if (element == list->head)
-	{
-		return -1;
-	}
-	if (element->value == value)
-	{
-		return currentIndex;
-	}
-	return helperIndexOf(list, element->next, value, currentIndex + 1);
-}
-
 int indexOf(struct List* list, int value)
 {
 	if (list->head == NULL)
@@ -89,23 +74,22 @@ int indexOf(struct List* list, int value)
 	{
 		return 0;
 	}
-	return helperIndexOf(list, list->head->next, value, 1);
-}
-
-bool helperDelete(struct List* list, struct ListElement* element, int indexToDelete, int currentIndex)
-{
-	if (indexToDelete - currentIndex == 1)
-	{				
-		struct ListElement* oldElement = element->next;
-		element->next = element->next->next;
-		if (oldElement == list->tail)
+	int currentIndex = 1;
+	struct ListElement* currentElement = list->head->next;
+	while (currentElement != list->head)
+	{
+		if (currentElement->value == value)
 		{
-			list->tail = element;
+			break;
 		}
-		free(oldElement);
-		return true;
+		currentElement = currentElement->next;
+		currentIndex++;
 	}
-	return helperDelete(list, element->next, indexToDelete, currentIndex + 1);
+	if (currentElement == list->head)
+	{
+		return -1;
+	}
+	return currentIndex;
 }
 
 bool deleteElement(struct List* list, int index)
@@ -133,7 +117,24 @@ bool deleteElement(struct List* list, int index)
 		free(oldElement);
 		return true;
 	}
-	return helperDelete(list, list->head, index, 0);
+	int currentIndex = 0;
+	struct ListElement* currentElement = list->head;
+	while (true)
+	{
+		if (index - currentIndex == 1)
+		{
+			struct ListElement* oldElement = currentElement->next;
+			currentElement->next = currentElement->next->next;
+			if (oldElement == list->tail)
+			{
+				list->tail = currentElement;
+			}
+			free(oldElement);
+			return true;
+		}
+		currentIndex++;
+		currentElement = currentElement->next;
+	}
 }
 
 void deleteList(struct List** list)
@@ -144,22 +145,6 @@ void deleteList(struct List** list)
 	}
 	free(*list);
 	*list = NULL;
-}
-
-int getPosHelper(struct List* list, struct ListElement* element, int period, int currentStep)
-{
-	if (getLength(list) == 1)
-	{
-		return element->value;
-	}
-	if (currentStep == period)
-	{	
-		currentStep = 0;
-		struct ListElement* next = element->next;
-		deleteElement(list, indexOf(list, element->value));
-		return getPosHelper(list, next, period, currentStep + 1);
-	}
-	return getPosHelper(list, element->next, period, currentStep + 1);
 }
 
 int getPos(int count, int period)
@@ -176,7 +161,22 @@ int getPos(int count, int period)
 			return -1;
 		}
 	}
-	int result = getPosHelper(list, list->head, period, 1);
+	int step = 1;
+	struct ListElement* currentElement = list->head;
+	while (getLength(list) != 1)
+	{
+		if (step == period)
+		{
+			step = 1;
+			struct ListElement* oldElement = currentElement;
+			currentElement = currentElement->next;
+			deleteElement(list, indexOf(list, oldElement->value));
+			continue;
+		}
+		currentElement = currentElement->next;
+		step++;
+	}
+	int result = currentElement->value;
 	deleteList(&list);
 	return result;
 }
