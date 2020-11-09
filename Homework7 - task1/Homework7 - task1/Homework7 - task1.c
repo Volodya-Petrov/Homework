@@ -80,4 +80,5 @@ int main(void)
 			break;
 		}
 	}
+	deleteDict(&dict);
 }

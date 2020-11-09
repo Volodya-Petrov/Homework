@@ -23,21 +23,21 @@ struct Dictionary* createDictionary(void)
 }
 
 void addElement(struct Dictionary* dict, int key, char value[])
-{
+{	
+	char* newValue = malloc(sizeof(char) * 21);
+	if (newValue == NULL)
+	{
+		return;
+	}
+	strcpy(newValue, value);
 	if (dict->root == NULL)
 	{
 		struct Leaf* newElement = malloc(sizeof(struct Leaf));
 		if (newElement == NULL)
-		{
+		{	
+			free(newValue);
 			return;
 		}
-		char* newValue = malloc(sizeof(char) * strlen(value));
-		if (newValue == NULL)
-		{
-			free(newElement);
-			return;
-		}
-		strcpy(newValue, value);
 		newElement->key = key;
 		newElement->value = newValue;
 		newElement->left = NULL;
@@ -50,12 +50,7 @@ void addElement(struct Dictionary* dict, int key, char value[])
 	{	
 		if (key == currentRoot->key)
 		{
-			char* newValue = malloc(sizeof(char) * strlen(value));
-			if (newValue == NULL)
-			{
-				return;
-			}
-			strcpy(newValue, value);
+			free(currentRoot->value);
 			currentRoot->value = newValue;
 			return;
 		}
@@ -65,17 +60,11 @@ void addElement(struct Dictionary* dict, int key, char value[])
 			{
 				struct Leaf* newElement = malloc(sizeof(struct Leaf));
 				if (newElement == NULL)
-				{
-					return;
-				}
-				char* newValue = malloc(sizeof(char) * strlen(value));
-				if (newValue == NULL)
-				{
-					free(newElement);
+				{	
+					free(newValue);
 					return;
 				}
 				newElement->key = key;
-				strcpy(newValue, value);
 				newElement->value = newValue;
 				newElement->left = NULL;
 				newElement->right = NULL;
@@ -91,17 +80,11 @@ void addElement(struct Dictionary* dict, int key, char value[])
 			{
 				struct Leaf* newElement = malloc(sizeof(struct Leaf));
 				if (newElement == NULL)
-				{
-					return;
-				}
-				char* newValue = malloc(sizeof(char) * strlen(value));
-				if (newValue == NULL)
-				{
-					free(newElement);
+				{	
+					free(newValue);
 					return;
 				}
 				newElement->key = key;
-				strcpy(newValue, value);
 				newElement->value = newValue;
 				newElement->left = NULL;
 				newElement->right = NULL;
@@ -154,11 +137,13 @@ void deleteElement(struct Dictionary* dict, int key)
 		if (currentElement->key == key)
 		{
 			found = true;
+			continue;
 		}
 		if (currentElement->key > key)
 		{
 			parent = currentElement;
 			currentElement = currentElement->left;
+			continue;
 		}
 		if (currentElement->key < key)
 		{
