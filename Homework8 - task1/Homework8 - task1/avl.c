@@ -1,8 +1,12 @@
+#include "avl.h"
+#include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Node
 {	
 	int key;
+	char* value;
 	int height;
 	struct Node* left;
 	struct Node* right;
@@ -13,7 +17,18 @@ typedef struct Tree
 	Node* root;
 }Tree;
 
-Node* createNode(int key)
+char* createValue(char* value)
+{
+	char* newValue = malloc(strlen(value) + 1);
+	if (newValue == NULL)
+	{
+		return NULL;
+	}
+	strcpy(newValue, value);
+	return newValue;
+}
+
+Node* createNode(int key, char* value)
 {
 	Node* newNode = malloc(sizeof(Node));
 	if (newNode == NULL)
@@ -24,7 +39,14 @@ Node* createNode(int key)
 	newNode->right = NULL;
 	newNode->height = 1;
 	newNode->key = key;
+	newNode->value = createValue(value);
 	return newNode;
+}
+
+Tree* createTree()
+{
+	Tree* newTree = calloc(1, sizeof(Tree));
+	return newTree;
 }
 
 int height(Node* node)
@@ -53,10 +75,6 @@ Node* rightRotation(Node* node)
 	Node* leftNode = node->left;
 	node->left = leftNode->right;
 	leftNode->right = node;
-	/*if (tree->root == node)
-	{
-		tree->root = leftNode;
-	}*/
 	overHeight(node);
 	overHeight(leftNode);
 	return leftNode;
@@ -67,8 +85,8 @@ Node* leftRotation(Node* node)
 	Node* rightNode = node->right;
 	node->right = rightNode->left;
 	rightNode->left = node;
-	overHeight(rightNode);
 	overHeight(node);
+	overHeight(rightNode);
 	return rightNode;
 }
 
@@ -94,21 +112,40 @@ Node* balance(Node* node)
 	return node;
 }
 
-Node* insert(Node* node, int key)
+Node* insertNode(Node* node, int key, char* value)
 {
 	if (node == NULL)
 	{
-		return createNode(key);
+		return createNode(key, value);
 	}
 	if (key < node->key)
 	{
-		node->left = insert(node->left, key);
+		node->left = insertNode(node->left, key, value);
 	}
 	if (key > node->key)
 	{
-		node->right = insert(node->right, key);
+		node->right = insertNode(node->right, key, value);
+	}
+	if (key == node->key)
+	{
+		char* newValue = createValue(value);
+		if (newValue == NULL)
+		{
+			return balance(node);
+		}
+		free(node->value);
+		node->value = newValue;
 	}
 	return balance(node);
+}
+
+void insert(Tree* tree, int key, char* value)
+{
+	if (tree == NULL)
+	{
+		return;
+	}
+	tree->root = insertNode(tree->root, key, value);
 }
 
 Node* searchMin(Node* node)
@@ -133,7 +170,7 @@ Node* deleteMin(Node* node)
 	return balance(node);
 }
 
-Node* delete(Node* node, int key)
+Node* deleteNode(Node* node, int key)
 {
 	if (node == NULL)
 	{
@@ -141,16 +178,17 @@ Node* delete(Node* node, int key)
 	}
 	if (key < node->key)
 	{
-		node->left = delete(node->left, key);
+		node->left = deleteNode(node->left, key);
 	}
 	else if (key > node->key)
 	{
-		node->right = delete(node->right, key);
+		node->right = deleteNode(node->right, key);
 	}
 	else
 	{
 		Node* leftChild = node->left;
 		Node* rightChild = node->right;
+		free(node->value);
 		free(node);
 		if (rightChild == NULL)
 		{
@@ -162,4 +200,61 @@ Node* delete(Node* node, int key)
 		return balance(min);
 	}
 	return balance(node);
+}
+
+void delete(Tree* tree, int key)
+{
+	tree->root = deleteNode(tree->root, key);
+}
+
+void deleteTree(Tree** tree)
+{
+	if (tree == NULL)
+	{
+		return;
+	}
+	while ((*tree)->root != NULL)
+	{
+		((*tree)->root) = deleteNode((*tree)->root, (*tree)->root->key);
+	}
+	free(*tree);
+	*tree = NULL;
+}
+
+const char* getValue(Tree* tree, int key)
+{	
+	if (tree == NULL)
+	{
+		return NULL;
+	}
+	Node* currentNode = tree->root;
+	while (true)
+	{
+		if (currentNode == NULL)
+		{
+			return NULL;
+		}
+		if (currentNode->key == key)
+		{
+			return currentNode->value;
+		}
+		if (currentNode->key > key)
+		{
+			currentNode = currentNode->left;
+			continue;
+		}
+		if (currentNode->key < key)
+		{
+			currentNode = currentNode->right;
+		}
+	}
+}
+
+bool checkExist(Tree* tree, int key)
+{
+	if (getValue(tree, key) == NULL)
+	{
+		return false;
+	}
+	return true;
 }
