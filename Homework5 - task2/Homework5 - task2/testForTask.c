@@ -4,17 +4,17 @@
 bool testBrackets(void)
 {	
 	bool result = true;
-	if (!isBalanced("()[]{}({})", 11))
+	if (!isBalanced("()[]{}({})"))
 	{
 		printf("Первый тест провален.\n");
 		result = false;
 	}
-	if (isBalanced("{{{}})(){", 10))
+	if (isBalanced("{{{}})(){"))
 	{
 		printf("Второй тест провален.\n");
 		result = false;
 	}
-	if (isBalanced("[({})][][]{})", 14))
+	if (isBalanced("[({})][][]{})"))
 	{
 		printf("Второй тест провален.\n");
 		result = false;

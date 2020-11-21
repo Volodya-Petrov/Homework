@@ -56,7 +56,7 @@ void push(struct Stack* stack, int value)
 
 void deleteStack(struct Stack** stack)
 {	
-	int value;
+	int value = 0;
 	while (pop(*stack, &value))
 	{
 

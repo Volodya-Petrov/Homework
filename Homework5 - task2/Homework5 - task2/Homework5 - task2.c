@@ -26,9 +26,8 @@ int main(void)
 		return 1;
 	}
 	printf("Введите последовательность скобок:\n");
-	int length = 0;
-	char* string = stringReader(&length);
-	if (isBalanced(string, length))
+	char* string = readString();
+	if (isBalanced(string))
 	{
 		printf("Баланс скобок соблюден!\n");
 	}
