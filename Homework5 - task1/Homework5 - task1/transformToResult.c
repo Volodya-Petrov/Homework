@@ -1,39 +1,17 @@
 #include "transformToResult.h"
 #include "..\..\Stack\Stack\Stack.h"
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
 int fromCharToInt(char symbol)
 {
-	switch (symbol)
+	if (isdigit(symbol) == 0)
 	{
-	case '1':
-		return 1;
-	case '2':
-		return 2;
-	case '3':
-		return 3;
-	case '4':
-		return 4;
-	case '5':
-		return 5;
-	case '6':
-		return 6;
-	case '7':
-		return 7;
-	case '8':
-		return 8;
-	case '9':
-		return 9;
-	case '0':
-		return 0;
-	default:
 		return -1;
 	}
-}
-
-int isDigit(char symbol)
-{
-	return fromCharToInt(symbol) != -1;
+	return symbol - '0';
 }
 
 int convertStrToInt(char string[], int beginIndex, int endIndex)
@@ -48,104 +26,54 @@ int convertStrToInt(char string[], int beginIndex, int endIndex)
 	return number;
 }
 
-int fromPostfixToInt(char string[], int size)
+int fromPostfixToInt(char string[])
 {	
 	struct Stack* stack = createStack();
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < strlen(string); i++)
 	{	
-		if (isDigit(string[i]))
+		if (isdigit(string[i]))
 		{	
 			int beginOfNum = i;
-			while (isDigit(string[i]) && i < size)
+			while (isdigit(string[i]) && i < strlen(string))
 			{
 				i++;
 			}
 			push(stack, convertStrToInt(string, beginOfNum, i));
 		}
-		else
+		else if (string[i] == ' ')
 		{
+			continue;
+		}
+		else
+		{	
+			int number1 = 0;
+			int number2 = 0;
+			if (!pop(stack, &number1))
+			{
+				printf("Ошибка, невозможная операция\n");
+				deleteStack(&stack);
+				return 0;
+			}
+			if (!pop(stack, &number2))
+			{
+				printf("Ошибка, невозможная операция\n");
+				deleteStack(&stack);
+				return 0;
+			}
 			switch (string[i])
 			{
 			case '+':
-			{	
-				int number1 = 0;
-				int number2 = 0;
-				if (!pop(stack, &number1))
-				{	
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				if (!pop(stack, &number2))
-				{	
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				int number = number1 + number2;
-				push(stack, number);
+				push(stack, number1 + number2);
 				break;
-			}
 			case '-':
-			{
-				int number1 = 0;
-				int number2 = 0;
-				if (!pop(stack, &number1))
-				{
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				if (!pop(stack, &number2))
-				{
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				int number = number2 - number1;
-				push(stack, number);
+				push(stack, number2 - number1);
 				break;
-			}
 			case '*':
-			{
-				int number1 = 0;
-				int number2 = 0;
-				if (!pop(stack, &number1))
-				{
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				if (!pop(stack, &number2))
-				{
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				int number = number1 * number2;
-				push(stack, number);
+				push(stack, number1 * number2);
 				break;
-			}
 			case '/':
-			{
-				int number1 = 0;
-				int number2 = 0;
-				if (!pop(stack, &number1))
-				{
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				if (!pop(stack, &number2))
-				{
-					printf("Ошибка, невозможная операция\n");
-					deleteStack(&stack);
-					return 0;
-				}
-				int number = number2 / number1;
-				push(stack, number);
+				push(stack, number2 / number1);
 				break;
-			}
 			}
 		}
 	}

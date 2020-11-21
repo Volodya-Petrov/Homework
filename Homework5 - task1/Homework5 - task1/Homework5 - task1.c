@@ -3,7 +3,9 @@
 #include "../../Stack/Stack/testForStack.h"
 #include "testForTask.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 
 int main(void)
 {	
@@ -25,8 +27,7 @@ int main(void)
 		return 1;
 	}
 	printf("Введите арифметическое выражение в постфиксной форме\n");
-	int length = 0;
-	char* string = stringReader(&length);
-	printf("%i", fromPostfixToInt(string, length));
+	char* string = readString();
+	printf("%i", fromPostfixToInt(string));
 	free(string);
 }
