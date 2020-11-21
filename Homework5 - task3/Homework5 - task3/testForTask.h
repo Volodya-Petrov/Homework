@@ -2,5 +2,5 @@
 
 #include <stdbool.h>
 
-//тесты к заданию
+// тесты к заданию
 bool tests(void);

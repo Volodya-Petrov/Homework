@@ -1,4 +1,4 @@
 #pragma once
 
 // преобразование инфиксной записи в постфиксную
-char* infixToPostfix(char* string, int length);
+char* infixToPostfix(char* string);

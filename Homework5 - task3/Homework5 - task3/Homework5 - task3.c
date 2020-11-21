@@ -26,9 +26,8 @@ int main(void)
 		return 1;
 	}
 	printf("Введите выражение в инфиксной форме\n");
-	int length = 0;
-	char* infixForm = stringReader(&length);
-	char* postfixForm = infixToPostfix(infixForm, length);
+	char* infixForm = readString();
+	char* postfixForm = infixToPostfix(infixForm);
 	printf("Выражение в постфиксном виде:\n");
 	printf("%s", postfixForm);
 	free(infixForm);

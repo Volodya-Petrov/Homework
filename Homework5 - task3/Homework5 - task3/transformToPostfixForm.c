@@ -2,6 +2,8 @@
 #include "../../Stack/Stack/Stack.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <ctype.h>
+#include <string.h>
 
 bool isOperator(char symbol)
 {
@@ -40,40 +42,25 @@ int getPriority(char symbol)
 	}
 }
 
-bool isDigit(char symbol)
-{
-	switch (symbol)
-	{
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
-	case '8':
-	case '9':
-		return true;
-	default:
-		return false;
-	}
-}
-
-char* infixToPostfix(char* string, int length)
+char* infixToPostfix(char* string)
 {	
 	struct Stack* stackForOper = createStack();
-	char* postFixForm = calloc(length * 2, sizeof(char));
-	if (postFixForm == NULL)
+	if (stackForOper == NULL)
 	{
 		return NULL;
 	}
+	char* postFixForm = calloc(strlen(string) * 2, sizeof(char));
+	if (postFixForm == NULL)
+	{	
+		free(stackForOper);
+		return NULL;
+	}
 	int indexInReal = 0;
-	for (int i = 0; i < length; i++)
+	for (int i = 0; i < strlen(string); i++)
 	{
-		if (isDigit(string[i]))
+		if (isdigit(string[i]))
 		{
-			while (isDigit(string[i]))
+			while (isdigit(string[i]))
 			{
 				postFixForm[indexInReal] = string[i];
 				indexInReal++;
