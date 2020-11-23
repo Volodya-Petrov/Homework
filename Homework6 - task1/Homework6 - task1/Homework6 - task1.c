@@ -6,6 +6,19 @@
 
 #define WRONG_COMMAND 1337;
 
+int correctInput(void)
+{
+	int value = 0;
+	while (!scanf("%i", &value))
+	{
+		scanf("%*s");
+		printf("Введенное значение не является корректным!\n");
+		printf("Повторите попытку\n");
+		printf("Введите значение, которое хотите добавить: ");
+	}
+	return value;
+}
+
 int main(void)
 {	
 	setlocale(LC_ALL, "rus");
@@ -38,29 +51,15 @@ int main(void)
 		case 1:
 		{
 			printf("Введите значение, которое хотите добавить: ");
-			int value = 0;
-			while (!scanf("%i", &value))
-			{
-				scanf("%*s");
-				printf("Введенное значение не является корректным!\n");
-				printf("Повторите попытку\n");
-				printf("Введите значение, которое хотите добавить: ");
-			}
-			addElement(newList, value);
+			int value = correctInput();
+			add(newList, value);
 			break;
 		}
 		case 2:
 		{
 			printf("Введите значение, которое хотите удалить: ");
-			int value = 0;
-			while (!scanf("%i", &value))
-			{
-				scanf("%*s");
-				printf("Введенное значение не является корректным!\n");
-				printf("Повторите попытку\n");
-				printf("Введите значение, которое хотите добавить: ");
-			}
-			if (deleteElement(newList, value))
+			int value = correctInput();
+			if (delElement(newList, value))
 			{
 				printf("Элемент с данным значением удален из списка!\n");
 			}
@@ -72,15 +71,12 @@ int main(void)
 		}
 		case 3:
 		{
-			int length = getLength(newList);
-			if (length == 0)
+			int* array = fillArray(newList);
+			if (array == NULL)
 			{
-				printf("Список пуст!\n");
 				break;
 			}
-			int* array = calloc(length, sizeof(int));
-			getList(newList, array, 0);
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < length(newList); i++)
 			{
 				printf("%i ", array[i]);
 			}

@@ -9,32 +9,40 @@ struct ListElement
 };
 
 struct List
-{
+{	
+	int length;
 	struct ListElement* head;
 };
 
-void helperGetList(struct ListElement* element, int array[], int index)
+int length(struct List* list)
 {
-	array[index] = element->value;
-	if (element->next == NULL)
+	if (list == NULL)
 	{
-		return;
+		return 0;
 	}
-	helperGetList(element->next, array, index + 1);
+	return list->length;
 }
 
-void getList(struct List* list, int array[], int index)
+int* fillArray(struct List* list)
 {
 	if (list->head == NULL)
 	{
-		return;
+		return NULL;
 	}
-	array[index] = list->head->value;
-	if (list->head->next == NULL)
+	int* array = calloc(length(list), sizeof(int));
+	if (array == NULL)
 	{
-		return;
+		return NULL;
 	}
-	helperGetList(list->head->next, array, index + 1);
+	int index = 0;
+	struct ListElement* currentElement = list->head;
+	while (currentElement != NULL)
+	{
+		array[index] = currentElement->value;
+		currentElement = currentElement->next;
+		index++;
+	}
+	return array;
 }
 
 struct List* createList()
@@ -45,45 +53,16 @@ struct List* createList()
 		return NULL;
 	}
 	newList->head = NULL;
+	newList->length = 0;
 	return newList;
 }
 
-int helperGetLength(struct ListElement* element)
-{
-	if (element->next == NULL)
-	{
-		return 1;
-	}
-	return 1 + helperGetLength(element->next);
-}
-
-int getLength(struct List* list)
-{
-	if (list->head == NULL)
-	{
-		return 0;
-	}
-	return helperGetLength(list->head);
-}
-
-bool helperForDelete(struct ListElement* element, int value)
-{
-	if (element->next == NULL)
+bool delElement(struct List* list, int value)
+{	
+	if (list == NULL)
 	{
 		return false;
 	}
-	if (element->next->value == value)
-	{
-		struct ListElement* oldElement = element->next;
-		element->next = element->next->next;
-		free(oldElement);
-		return true;
-	}
-	return helperForDelete(element->next, value);
-}
-
-bool deleteElement(struct List* list, int value)
-{
 	if (list->head == NULL)
 	{
 		return false;
@@ -93,75 +72,65 @@ bool deleteElement(struct List* list, int value)
 		struct ListElement* oldElement = list->head;
 		list->head = list->head->next;
 		free(oldElement);
+		list->length--;
 		return true;
 	}
-	return helperForDelete(list->head, value);
+	struct ListElement* currentElement = list->head;
+	while (currentElement->next != NULL && currentElement->next->value < value)
+	{
+		currentElement = currentElement->next;
+	}
+	if (currentElement->next == NULL || currentElement->next->value != value)
+	{
+		return false;
+	}
+	struct ListElement* oldElement = currentElement->next;
+	currentElement->next = currentElement->next->next;
+	free(oldElement);
+	list->length--;
+	return true;
 }
 
-void helperInsert(struct ListElement* element, int value)
-{
-	if (element->next == NULL)
-	{
-		struct ListElement* newElement = malloc(sizeof(struct ListElement));
-		if (newElement != NULL)
-		{
-			newElement->value = value;
-			newElement->next = NULL;
-		}
-		element->next = newElement;
-		return;
-	}
-	if (element->next->value >= value)
-	{
-		struct ListElement* newElement = malloc(sizeof(struct ListElement));
-		if (newElement == NULL)
-		{
-			return;
-		}
-		newElement->value = value;
-		newElement->next = element->next;
-		element->next = newElement;
-		return;
-	}
-	helperInsert(element->next, value);
-}
-
-void addElement(struct List* list, int value)
+void add(struct List* list, int value)
 {	
-	if (list->head == NULL || list->head->value >= value)
+	if (list == NULL)
 	{
-		struct ListElement* newElement = malloc(sizeof(struct ListElement));
-		if (newElement == NULL)
-		{
-			return;
-		}
-		newElement->value = value;
+		return;
+	}
+	struct ListElement* newElement = malloc(sizeof(struct ListElement));
+	if (newElement == NULL)
+	{
+		return;
+	}
+	newElement->value = value;
+	list->length++;
+	if (list->head == NULL || value <= list->head->value)
+	{
 		newElement->next = list->head;
 		list->head = newElement;
 		return;
 	}
-	helperInsert(list->head, value);
-}
-
-bool getLastElement(struct List* list, int* value)
-{
-	if (list->head == NULL)
+	struct ListElement* currentElement = list->head;
+	while (currentElement->next != NULL && currentElement->next->value < value)
 	{
-		return false;
+		currentElement = currentElement->next;
 	}
-	*value = list->head->value;
-	struct ListElement* oldElement = list->head;
-	list->head = list->head->next;
-	free(oldElement);
-	return true;
+	newElement->next = currentElement->next;
+	currentElement->next = newElement;
+	return;
 }
 
 void deleteList(struct List** list)
-{
-	int value = 0;
-	while (getLastElement(*list, &value))
+{	
+	if (list == NULL)
 	{
-
+		return;
+	}
+	while ((*list)->head != NULL)
+	{
+		struct ListElement* oldElement = (*list)->head;
+		(*list)->head = (*list)->head->next;
+		free(oldElement);
 	}
 	free(*list);
 	*list = NULL;
