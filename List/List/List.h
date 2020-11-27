@@ -8,9 +8,9 @@ List* createList();
 
 int length(List* list);
 
-bool append(List* list, int value);
+int indexOf(List* list, char* value);
 
-int indexOf(List* list, int value);
+bool append(List* list, char* value);
 
 bool deleteElement(struct List* list, int index);
 

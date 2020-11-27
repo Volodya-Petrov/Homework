@@ -5,7 +5,8 @@
 
 typedef struct ListElement
 {
-	int value;
+	char* value;
+	int count;
 	struct ListElement* next;
 } ListElement;
 
@@ -38,28 +39,9 @@ int length(List* list)
 	return list->length;
 }
 
-bool append(List* list, int value)
-{
-	ListElement* newElement = malloc(sizeof(ListElement));
-	if (newElement == NULL)
-	{
-		return false;
-	}
-	list->length++;
-	newElement->next = NULL;
-	newElement->value = value;
-	if (list->head == NULL)
-	{
-		list->head = newElement;
-		list->tail = newElement;
-		return true;
-	}
-	list->tail->next = newElement;
-	list->tail = newElement;
-	return true;
-}
+int 
 
-int indexOf(List* list, int value)
+int indexOf(List* list, char* value)
 {
 	if (list->head == NULL)
 	{
@@ -69,7 +51,7 @@ int indexOf(List* list, int value)
 	ListElement* currentElement = list->head;
 	while (currentElement != NULL)
 	{
-		if (currentElement->value == value)
+		if (strcmp(currentElement->value, value) == 0)
 		{
 			return currentIndex;
 		}
@@ -77,6 +59,44 @@ int indexOf(List* list, int value)
 		currentIndex++;
 	}
 	return -1;
+}
+
+bool append(List* list, char* value)
+{
+	if (indexOf(list, value) != -1)
+	{
+		ListElement* currentElement = list->head;
+		while (strcmp(currentElement->value, value) != 0)
+		{
+			currentElement = currentElement->next;
+		}
+		currentElement->count++;
+	}
+	ListElement* newElement = malloc(sizeof(ListElement));
+	if (newElement == NULL)
+	{
+		return false;
+	}
+	char* newValue = malloc(strlen(value) + 1);
+	if (newValue == NULL)
+	{
+		free(newElement);
+		return false;
+	}
+	strcpy(newValue, value);
+	list->length++;
+	newElement->next = NULL;
+	newElement->value = newValue;
+	newElement->count = 1;
+	if (list->head == NULL)
+	{
+		list->head = newElement;
+		list->tail = newElement;
+		return true;
+	}
+	list->tail->next = newElement;
+	list->tail = newElement;
+	return true;
 }
 
 bool deleteElement(struct List* list, int index)
@@ -97,10 +117,12 @@ bool deleteElement(struct List* list, int index)
 			list->head = NULL;
 			list->tail = NULL;
 			list->length--;
+			free(oldElement->value);
 			free(oldElement);
 			return true;
 		}
 		list->head = list->head->next;
+		free(oldElement->value);
 		free(oldElement);
 		list->length--;
 		return true;
@@ -117,6 +139,7 @@ bool deleteElement(struct List* list, int index)
 			{
 				list->tail = currentElement;
 			}
+			free(oldElement->value);
 			free(oldElement);
 			return true;
 		}
