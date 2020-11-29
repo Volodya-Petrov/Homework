@@ -150,3 +150,21 @@ void deleteTable(HashTable** table)
 	free(*table);
 	*table = NULL;
 }
+
+bool valueExist(HashTable* table, char* value)
+{	
+	int key = hashFunction(value, table->length);
+	for (int i = 0; i < length(table->hashTable[key]); i++)
+	{
+		if (strcmp(value, getValue(table->hashTable[key], i)) == 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+int tableSize(HashTable* table)
+{
+	return table->length;
+}

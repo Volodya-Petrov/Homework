@@ -142,14 +142,19 @@
     <ClCompile Include="..\..\List\List\List.c" />
     <ClCompile Include="hashFilling.c" />
     <ClCompile Include="hashTable.c" />
+    <ClCompile Include="listTests.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="testHash.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\List\List\List.h" />
     <ClInclude Include="hashFilling.h" />
     <ClInclude Include="hashTable.h" />
+    <ClInclude Include="listTests.h" />
+    <ClInclude Include="testHash.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="test.txt" />
     <Text Include="text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

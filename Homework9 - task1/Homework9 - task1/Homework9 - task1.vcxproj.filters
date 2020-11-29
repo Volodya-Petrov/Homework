@@ -27,6 +27,12 @@
     <ClCompile Include="hashFilling.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="listTests.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="testHash.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\List\List\List.h">
@@ -38,9 +44,18 @@
     <ClInclude Include="hashFilling.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="listTests.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="testHash.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="text.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="test.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
