@@ -8,6 +8,10 @@ List* createList();
 
 int length(List* list);
 
+int getCount(List* list, int index);
+
+char* getValue(List* list, int index);
+
 int indexOf(List* list, char* value);
 
 bool append(List* list, char* value);

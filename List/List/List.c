@@ -39,7 +39,43 @@ int length(List* list)
 	return list->length;
 }
 
-int 
+int getCount(List* list, int index)
+{
+	if (index < 0 || index >= length(list))
+	{
+		return 0;
+	}
+	int currentIndex = 0;
+	ListElement* currentElement = list->head;
+	while (true)
+	{
+		if (currentIndex == index)
+		{
+			return currentElement->count;
+		}
+		currentElement = currentElement->next;
+		currentIndex++;
+	}
+}
+
+char* getValue(List* list, int index)
+{
+	if (index < 0 || index >= length(list))
+	{
+		return 0;
+	}
+	int currentIndex = 0;
+	ListElement* currentElement = list->head;
+	while (true)
+	{
+		if (currentIndex == index)
+		{
+			return currentElement->value;
+		}
+		currentElement = currentElement->next;
+		currentIndex++;
+	}
+}
 
 int indexOf(List* list, char* value)
 {
@@ -71,6 +107,7 @@ bool append(List* list, char* value)
 			currentElement = currentElement->next;
 		}
 		currentElement->count++;
+		return true;
 	}
 	ListElement* newElement = malloc(sizeof(ListElement));
 	if (newElement == NULL)

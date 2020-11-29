@@ -24,6 +24,9 @@
     <ClCompile Include="hashTable.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="hashFilling.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\List\List\List.h">
@@ -32,5 +35,13 @@
     <ClInclude Include="hashTable.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="hashFilling.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="text.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
