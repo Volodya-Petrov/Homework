@@ -17,7 +17,7 @@ Graph* makeGraph(int count)
 	}
 	newGraph->matrix = calloc(count, sizeof(int*));
 	for (int i = 0; i < count; i++)
-	{
+	{	
 		newGraph->matrix[i] = calloc(count, sizeof(int));
 	}
 	newGraph->vertices = count;

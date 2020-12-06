@@ -30,6 +30,9 @@
     <ClCompile Include="buildCountries.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="testForTask.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h">
@@ -44,9 +47,18 @@
     <ClInclude Include="buildCountries.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="testForTask.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="task.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="test1.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="test2.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

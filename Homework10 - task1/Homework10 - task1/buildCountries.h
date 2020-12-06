@@ -2,4 +2,6 @@
 
 #include "List.h"
 
-List** getCountries(char fileName[]);
+
+// выдает массив списков государств с городами, входящими в них
+List** getCountries(char fileName[], int* size);

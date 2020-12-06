@@ -49,14 +49,19 @@ void buildCountries(Graph* graph, List** countries, int countOfCountries, bool i
 	}
 }
 
-List** getCountries(char fileName[])
+List** getCountries(char fileName[], int* size)
 {
 	FILE* fileOpen = fopen(fileName, "r");
 	int countOfCities = 0;
 	fscanf(fileOpen, "%i", &countOfCities);
+	Graph* graph = makeGraph(countOfCities);
+	if (graph == NULL)
+	{
+		return NULL;
+	}
+	bool* isUsed = calloc(countOfCities, sizeof(bool));
 	int countOfWays = 0;
 	fscanf(fileOpen, "%i", &countOfWays);
-	Graph* graph = makeGraph(countOfCities);
 	for (int i = 0; i < countOfWays; i++)
 	{
 		int firstCity = 0;
@@ -67,7 +72,7 @@ List** getCountries(char fileName[])
 	}
 	int countOfCountries = 0;
 	fscanf(fileOpen, "%i", &countOfCountries);
-	bool* isUsed = calloc(countOfCities, sizeof(bool));
+	*size = countOfCountries;
 	List** list = calloc(countOfCountries, sizeof(List*));
 	for (int i = 0; i < countOfCountries; i++)
 	{

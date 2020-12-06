@@ -144,15 +144,19 @@
     <ClCompile Include="List.c" />
     <ClCompile Include="buildCountries.c" />
     <ClCompile Include="testForList.c" />
+    <ClCompile Include="testForTask.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buildCountries.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="testForList.h" />
+    <ClInclude Include="testForTask.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="test1.txt" />
     <Text Include="task.txt" />
+    <Text Include="test2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

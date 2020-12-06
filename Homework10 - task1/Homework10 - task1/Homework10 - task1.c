@@ -1,29 +1,33 @@
-﻿#include "buildCountries.h";
+﻿#include "buildCountries.h"
+#include "testForList.h"
+#include "testForTask.h"
 #include "List.h"
 #include <stdio.h>
 #include <locale.h>
+#include <stdlib.h>
 
 int main(void)
 {	
 	setlocale(LC_ALL, "rus");
-	List** countries = getCountries("task.txt");
-	int countOfCountries = 2;
+	if (!testForTask() || !testList())
+	{	
+		printf("Тесты провалены\n");
+		return 1;
+	}
+	printf("Тесты пройдены успешно\n");
+	int countOfCountries = 0;
+	List** countries = getCountries("task.txt", &countOfCountries);
 	for (int i = 0; i < countOfCountries; i++)
 	{
-		printf("Государство %i", i + 1);
-		printf("\n");
-		int city = 0;
-		getValue(countries[i], 0, &city);
-		printf("Cтолица: %i", city + 1);
-		printf("\n");
+		printf("Государство %i\n", i + 1);
 		printf("Состав: ");
 		for (int j = 0; j < length(countries[i]); j++)
 		{	
+			int city = 0;
 			getValue(countries[i], j, &city);
 			printf("%i ", city + 1);
 		}
-		printf("\n");
-		printf("\n");
+		printf("\n\n");
 	}
 	for (int i = 0; i < countOfCountries; i++)
 	{
