@@ -141,9 +141,11 @@
   <ItemGroup>
     <ClCompile Include="avl.c" />
     <ClCompile Include="Homework8 - task1.c" />
+    <ClCompile Include="testForTask.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avl.h" />
+    <ClInclude Include="testForTask.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

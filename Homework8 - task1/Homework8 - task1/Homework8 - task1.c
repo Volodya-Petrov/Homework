@@ -1,24 +1,19 @@
 ﻿#include "avl.h"
+#include "testForTask.h"
 #include <stdio.h>
 #include <locale.h>
 
 #define WRONG_OPTION -1
 
-int correctInput()
-{
-	int key = 0;
-	while (scanf("%i", &key) == 0)
-	{
-		printf("Некорректный ввод данных\nПовторите попытку\n");
-		printf("Введите ключ: ");
-		scanf("%*s");
-	}
-	return key;
-}
-
 int main(void)
 {
 	setlocale(LC_ALL, "rus");
+	if (!tests())
+	{
+		printf("Тесты провалены!\n");
+		return 1;
+	}
+	printf("Тесты пройдены успешно\n");
 	printf("Набор команд:\n");
 	printf("0 - Выход\n");
 	printf("1 - добавить значение по ключу\n");
@@ -42,9 +37,10 @@ int main(void)
 		case 1:
 		{
 			printf("Введите ключ: ");
-			int key = correctInput();
-			char value[20] = "\0";
-			printf("Введите значение ключа: ");
+			char key[20] = "";
+			scanf("%s", key);
+			char value[20] = "";
+			printf("Введите значение: ");
 			scanf("%s", value);
 			insert(tree, key, value);
 			break;
@@ -52,20 +48,22 @@ int main(void)
 		case 2:
 		{	
 			printf("Введите ключ: ");
-			int key = correctInput();
+			char key[20] = "";
+			scanf("%s", key);
 			const char* value = getValue(tree, key);
 			if (value == NULL)
 			{
 				printf("Значение по заданному ключу не обнаружено\n");
 				break;
 			}
-			printf("Значение по заданному ключе: %s\n", value);
+			printf("Значение по заданному ключу: %s\n", value);
 			break;
 		}
 		case 3:
 		{
 			printf("Введите ключ: ");
-			int key = correctInput();
+			char key[20] = "";
+			scanf("%s", key);
 			if (checkExist(tree, key))
 			{
 				printf("Заданный ключ существует\n");
@@ -79,7 +77,8 @@ int main(void)
 		case 4:
 		{
 			printf("Введите ключ: ");
-			int key = correctInput();
+			char key[20] = "";
+			scanf("%s", key);
 			delete(tree, key);
 			printf("Элемент удален\n");
 			break;
