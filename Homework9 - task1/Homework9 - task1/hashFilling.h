@@ -3,4 +3,4 @@
 #include "hashTable.h"
 
 // заполняет хэш таблицу данными из файла
-void fillTable(HashTable* table, char fileName[]);
+void fillTable(HashTable* table, const char* fileName);

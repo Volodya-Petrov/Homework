@@ -2,7 +2,7 @@
 #include "hashTable.h"
 #include <stdio.h>
 
-void fillTable(HashTable* table, char fileName[])
+void fillTable(HashTable* table, const char* fileName)
 {	
 	char value[20] = "";
 	FILE* fileOpen = fopen(fileName, "r");

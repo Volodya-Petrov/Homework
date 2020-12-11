@@ -8,7 +8,7 @@ typedef struct HashTable HashTable;
 // создание хэш таблицы
 HashTable* createTable(void);
 
-// добавление элемента в хэш таблицу
+// добавление элемента в хэш таблицу/ властелин остается властелином "value"
 void add(HashTable* hashTable, char* value);
 
 // получение филл фактора
@@ -26,7 +26,7 @@ void printTable(HashTable* table);
 // удаление хэш таблицы
 void deleteTable(HashTable** table);
 
-// проверка на существование элемента в таблице
+// проверка на существование элемента в таблице/ властелин остается властелином "value"
 bool valueExist(HashTable* table, char* value);
 
 // возвращает количество ячеек в таблице

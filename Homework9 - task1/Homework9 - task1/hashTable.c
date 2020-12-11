@@ -1,4 +1,5 @@
 #include "../../List/List/List.h"
+#include "hashTable.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -30,6 +31,16 @@ HashTable* createTable(void)
 	for (int i = 0; i < SIZE_OF_TABLE; i++)
 	{
 		newTable->hashTable[i] = createList();
+		if (newTable->hashTable[i] == NULL)
+		{
+			for (int j = 0; j < i; j++)
+			{
+				deleteList(&(newTable->hashTable[j]));
+			}
+			free(newTable->hashTable);
+			free(newTable);
+			return NULL;
+		}
 	}
 	return newTable;
 }
@@ -57,14 +68,23 @@ bool rehash(HashTable* hashTable)
 	for (int i = 0; i < newLength; i++)
 	{
 		newHashTable[i] = createList();
+		if (newHashTable[i] == NULL)
+		{
+			for (int j = 0; j < i; j++)
+			{
+				deleteList(&newHashTable[j]);
+			}
+			free(newHashTable);
+			return false;
+		}
 	}
 	for (int i = 0; i < hashTable->length; i++)
 	{	
 		int lenOfPart = length(hashTable->hashTable[i]);
 		for (int j = 0; j < lenOfPart; j++)
 		{	
-			char* value = getValue(hashTable->hashTable[i], 0);
-			int key = hashFunction(value, newLength);
+			const char* value = getValue(hashTable->hashTable[i], 0);
+			const int key = hashFunction(value, newLength);
 			for (int k = 0; k < getCount(hashTable->hashTable[i], 0); k++)
 			{
 				append(newHashTable[key], value);
@@ -100,12 +120,20 @@ void add(HashTable* hashTable, char* value)
 }
 
 float getFillFactor(HashTable* table)
-{
+{	
+	if (table == NULL)
+	{
+		return 0;
+	}
 	return table->fillFactor;
 }
 
 float averageFilling(HashTable* table)
-{
+{	
+	if (table == NULL)
+	{
+		return 0;
+	}
 	float result = 0.0f;
 	for (int i = 0; i < table->length; i++)
 	{
@@ -116,7 +144,11 @@ float averageFilling(HashTable* table)
 }
 
 int maxFilling(HashTable* table)
-{
+{	
+	if (table == NULL)
+	{
+		return 0;
+	}
 	int maxResult = length(table->hashTable[0]);
 	for (int i = 1; i < table->length; i++)
 	{
@@ -130,7 +162,11 @@ int maxFilling(HashTable* table)
 }
 
 void printTable(HashTable* table)
-{
+{	
+	if (table == NULL)
+	{
+		return;
+	}
 	for (int i = 0; i < table->length; i++)
 	{
 		for (int j = 0; j < length(table->hashTable[i]); j++)
@@ -141,7 +177,11 @@ void printTable(HashTable* table)
 }
 
 void deleteTable(HashTable** table)
-{
+{	
+	if (*table == NULL)
+	{
+		return;
+	}
 	for (int i = 0; i < (*table)->length; i++)
 	{
 		deleteList(&((*table)->hashTable[i]));
@@ -153,18 +193,19 @@ void deleteTable(HashTable** table)
 
 bool valueExist(HashTable* table, char* value)
 {	
-	int key = hashFunction(value, table->length);
-	for (int i = 0; i < length(table->hashTable[key]); i++)
+	if (table == NULL)
 	{
-		if (strcmp(value, getValue(table->hashTable[key], i)) == 0)
-		{
-			return true;
-		}
+		return false;
 	}
-	return false;
+	int key = hashFunction(value, table->length);
+	return indexOf(table->hashTable[key], value) != -1;
 }
 
 int tableSize(HashTable* table)
-{
+{	
+	if (table == NULL)
+	{
+		return 0;
+	}
 	return table->length;
 }
