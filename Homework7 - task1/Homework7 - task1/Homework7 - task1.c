@@ -1,4 +1,5 @@
 ﻿#include "Tree.h"
+#include "testForTask.h"
 #include <stdio.h>
 #include <locale.h>
 
@@ -19,6 +20,11 @@ int correctInput()
 int main(void)
 {
 	setlocale(LC_ALL, "rus");
+	if (!test())
+	{
+		return 1;
+	}
+	printf("Тесты пройдены успешно\n");
 	printf("Набор команд:\n");
 	printf("1 - добавить значение по ключу\n");
 	printf("2 - получить значение по ключу\n");

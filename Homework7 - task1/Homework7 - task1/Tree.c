@@ -179,10 +179,10 @@ void nodeRotation(struct Dictionary* dict, struct Node* parent, struct Node* old
 {
 	if (parent == NULL)
 	{
-		dict->root = NULL;
+		dict->root = newNode;
 		return;
 	}
-	else if (parent->right == oldNode)
+	if (parent->right == oldNode)
 	{
 		parent->right = newNode;
 		return;
