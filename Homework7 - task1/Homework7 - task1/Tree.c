@@ -175,7 +175,20 @@ void deleteNode(struct Node* node)
 	free(node);
 }
 
-
+void nodeRotation(struct Dictionary* dict, struct Node* parent, struct Node* oldNode, struct Node* newNode)
+{
+	if (parent == NULL)
+	{
+		dict->root = NULL;
+		return;
+	}
+	else if (parent->right == oldNode)
+	{
+		parent->right = newNode;
+		return;
+	}
+	parent->left = newNode;
+}
 
 void deleteElement(struct Dictionary* dict, int key)
 {	
@@ -187,75 +200,35 @@ void deleteElement(struct Dictionary* dict, int key)
 	struct Node* currentElement = getNodeForParent(dict, parent, key);
 	if (currentElement->left == NULL && currentElement->right == NULL)
 	{	
-		if (parent == NULL)
-		{
-			dict->root = NULL;
-		}
-		else if (parent->right == currentElement)
-		{
-			parent->right = NULL;
-		}
-		else
-		{
-			parent->left = NULL;
-		}
+		nodeRotation(dict, parent, currentElement, NULL);
 		deleteNode(currentElement);
 		return;
 	}
 	if (currentElement->left == NULL && currentElement->right != NULL)
 	{	
-		if (parent == NULL)
-		{
-			dict->root = currentElement->right;
-		}
-		else if (parent->left == currentElement)
-		{
-			parent->left = currentElement->right;
-		}
-		else
-		{
-			parent->right = currentElement->right;
-		}
+		nodeRotation(dict, parent, currentElement, currentElement->right);
 		deleteNode(currentElement);
 		return;
 	}
 	if (currentElement->left != NULL && currentElement->right == NULL)
 	{
-		if (parent == NULL)
-		{
-			dict->root = currentElement->left;
-		}
-		else if (parent->left == currentElement)
-		{
-			parent->left = currentElement->left;
-		}
-		else
-		{
-			parent->right = currentElement->left;
-		}
+		nodeRotation(dict, parent, currentElement, currentElement->left);
 		deleteNode(currentElement);
 		return;
 	}
 	struct Node* maxLeft = getMaxLeftNode(currentElement);
 	maxLeft->right = currentElement->right;
 	maxLeft->left = currentElement->left;
-	if (parent == NULL)
-	{
-		dict->root = maxLeft;
-	}
-	else if (parent->left == currentElement)
-	{
-		parent->left = maxLeft;
-	}
-	else
-	{
-		parent->right = maxLeft;
-	}
+	nodeRotation(dict, parent, currentElement, maxLeft);
 	deleteNode(currentElement);
 }
 
 void deleteDict(struct Dictionary** dict)
-{
+{	
+	if (*dict == NULL)
+	{
+		return;
+	}
 	while ((*dict)->root != NULL)
 	{
 		deleteElement(*dict, (*dict)->root->key);

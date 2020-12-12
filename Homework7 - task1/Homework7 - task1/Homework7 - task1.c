@@ -4,6 +4,18 @@
 
 #define WRONG_OPTION -1
 
+int correctInput()
+{
+	int key = 0;
+	while (scanf("%i", &key) == 0)
+	{
+		printf("Некорректный ввод данных\nПовторите попытку\n");
+		printf("Введите ключ: ");
+		scanf("%*s");
+	}
+	return key;
+}
+
 int main(void)
 {
 	setlocale(LC_ALL, "rus");
@@ -29,8 +41,7 @@ int main(void)
 		case 1:
 		{	
 			printf("Введите ключ: ");
-			int key = 0;
-			scanf("%i", &key);
+			int key = correctInput();
 			char value[20] = "";
 			printf("Введите значение ключа: ");
 			scanf("%s", value);
@@ -39,9 +50,8 @@ int main(void)
 		}
 		case 2:
 		{
-			int key = 0;
 			printf("Введите ключ: ");
-			scanf("%i", &key);
+			int key = correctInput();
 			char* value = getValue(dict, key);
 			if (value == NULL)
 			{
@@ -53,9 +63,8 @@ int main(void)
 		}
 		case 3:
 		{
-			int key = 0;
 			printf("Введите ключ: ");
-			scanf("%i", &key);
+			int key = correctInput();
 			if (keyExists(dict, key))
 			{
 				printf("Заданный ключ существует\n");
@@ -68,9 +77,8 @@ int main(void)
 		}
 		case 4:
 		{
-			int key = 0;
 			printf("Введите ключ: ");
-			scanf("%i", &key);
+			int key = correctInput();
 			deleteElement(dict, key);
 			printf("Элемент удален\n");
 			break;
