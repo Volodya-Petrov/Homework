@@ -31,7 +31,7 @@ int main(void)
 			printf("Введите ключ: ");
 			int key = 0;
 			scanf("%i", &key);
-			char value[20] = "\0";
+			char value[20] = "";
 			printf("Введите значение ключа: ");
 			scanf("%s", value);
 			addElement(dict, key, value);

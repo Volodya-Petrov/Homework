@@ -3,164 +3,195 @@
 #include <stdbool.h>
 #include <string.h>
 
-struct Leaf
+struct Node
 {
 	int key;
 	char* value;
-	struct Leaf* left;
-	struct Leaf* right;
+	struct Node* left;
+	struct Node* right;
 };
 
 struct Dictionary
 {
-	struct Leaf* root;
+	struct Node* root;
 };
 
 struct Dictionary* createDictionary(void)
 {
-	struct Dictionary* newDict = calloc(1, sizeof(struct Dictionary));
-	return newDict;
+	return calloc(1, sizeof(struct Dictionary));
+}
+
+struct Node* createNode(int key, char value[])
+{
+	struct Node* newNode = calloc(1, sizeof(struct Node));
+	if (newNode == NULL)
+	{
+		return NULL;
+	}
+	char* newValue = calloc(strlen(value) + 1, sizeof(char));
+	if (newValue == NULL)
+	{
+		free(newNode);
+		return NULL;
+	}
+	strcpy(newValue, value);
+	newNode->value = newValue;
+	newNode->key = key;
+	return newNode;
+}
+
+struct Node* getNodeForParent(struct Dictionary* dict, struct Node* parent, int key)
+{
+	if (dict == NULL)
+	{
+		return NULL;
+	}
+	if (parent == NULL)
+	{
+		return dict->root;
+	}
+	return key > parent->key ? parent->right : parent->left;
+}
+
+struct Node* getParent(struct Dictionary* dict, int key)
+{
+	if (dict == NULL || dict->root == NULL || dict->root->key == key)
+	{
+		return NULL;
+	}
+	struct Node* parent = dict->root;
+	struct Node* currentNode = NULL;
+	if (parent->key < key)
+	{
+		currentNode = parent->right;
+	}
+	else
+	{
+		currentNode = parent->left;
+	}
+	while (true)
+	{
+		if (currentNode == NULL || currentNode->key == key)
+		{
+			return parent;
+		}
+		if (key > currentNode->key)
+		{
+			parent = currentNode;
+			currentNode = currentNode->right;
+			continue;
+		}
+		parent = currentNode;
+		currentNode = currentNode->left;
+	}
 }
 
 void addElement(struct Dictionary* dict, int key, char value[])
-{	
-	char* newValue = malloc(sizeof(char) * 21);
+{
+	if (dict == NULL)
+	{
+		return;
+	}
+	struct Node* parent = getParent(dict, key);
+	struct Node* node = getNodeForParent(dict, parent, key);
+	if (parent == NULL && node == NULL)
+	{
+		dict->root = createNode(key, value);
+		return;
+	}
+	if (node == NULL)
+	{
+		if (key > parent->key)
+		{
+			parent->right = createNode(key, value);
+			return;
+		}
+		parent->left = createNode(key, value);
+		return;
+	}
+	char* newValue = calloc(strlen(value) + 1, sizeof(char));
 	if (newValue == NULL)
 	{
 		return;
 	}
-	strcpy(newValue, value);
-	if (dict->root == NULL)
-	{
-		struct Leaf* newElement = malloc(sizeof(struct Leaf));
-		if (newElement == NULL)
-		{	
-			free(newValue);
-			return;
-		}
-		newElement->key = key;
-		newElement->value = newValue;
-		newElement->left = NULL;
-		newElement->right = NULL;
-		dict->root = newElement;
-		return;
-	}
-	struct Leaf* currentRoot = dict->root;
-	while (true)
-	{	
-		if (key == currentRoot->key)
-		{
-			free(currentRoot->value);
-			currentRoot->value = newValue;
-			return;
-		}
-		if (key > currentRoot->key)
-		{
-			if (currentRoot->right == NULL)
-			{
-				struct Leaf* newElement = malloc(sizeof(struct Leaf));
-				if (newElement == NULL)
-				{	
-					free(newValue);
-					return;
-				}
-				newElement->key = key;
-				newElement->value = newValue;
-				newElement->left = NULL;
-				newElement->right = NULL;
-				currentRoot->right = newElement;
-				return;
-			}
-			currentRoot = currentRoot->right;
-			continue;
-		}
-		if (key < currentRoot->key)
-		{
-			if (currentRoot->left == NULL)
-			{
-				struct Leaf* newElement = malloc(sizeof(struct Leaf));
-				if (newElement == NULL)
-				{	
-					free(newValue);
-					return;
-				}
-				newElement->key = key;
-				newElement->value = newValue;
-				newElement->left = NULL;
-				newElement->right = NULL;
-				currentRoot->left = newElement;
-				return;
-			}
-			currentRoot = currentRoot->left;
-		}
-	}
+	free(node->value);
+	node->value = newValue;
 }
 
 char* getValue(struct Dictionary* dict, int key)
-{
-	struct Leaf* currentElement = dict->root;
-	while (true)
+{	
+	if (dict == NULL)
 	{
-		if (currentElement == NULL)
-		{
-			return NULL;
-		}
-		if (key == currentElement->key)
-		{
-			return currentElement->value;
-		}
-		if (key > currentElement->key)
-		{
-			currentElement = currentElement->right;
-			continue;
-		}
-		currentElement = currentElement->left;
+		return NULL;
 	}
+	struct Node* parent = getParent(dict, key);
+	struct Node* node = getNodeForParent(dict, parent, key);
+	if (node == NULL)
+	{
+		return NULL;
+	}
+	return node->value;
 }
 
 bool keyExists(struct Dictionary* dict, int key)
-{
-	return !(getValue(dict, key) == NULL);
+{	
+	if (dict == NULL)
+	{
+		return false;
+	}
+	return getValue(dict, key) != NULL;
 }
 
-void deleteElement(struct Dictionary* dict, int key)
+struct Node* getMaxLeftNode(struct Node* parent)
 {
-	struct Leaf* parent = NULL;
-	struct Leaf* currentElement = dict->root;
-	bool found = false;
-	while (!found)
-	{	
-		if (currentElement == NULL)
-		{
-			return;
-		}
-		if (currentElement->key == key)
-		{
-			found = true;
-			continue;
-		}
-		if (currentElement->key > key)
-		{
-			parent = currentElement;
-			currentElement = currentElement->left;
-			continue;
-		}
-		if (currentElement->key < key)
-		{
-			parent = currentElement;
-			currentElement = currentElement->right;
-		}
+	struct Node* parentMax = parent;
+	struct Node* nodeMax = parent->left;
+	if (nodeMax->right == NULL)
+	{
+		parent->left = nodeMax->left;
+		nodeMax->left = NULL;
+		return nodeMax;
 	}
+	while (true)
+	{
+		if (nodeMax->right == NULL)
+		{
+			parentMax->right = nodeMax->left;
+			nodeMax->left = NULL;
+			return nodeMax;
+		}
+		parentMax = nodeMax;
+		nodeMax = nodeMax->right;
+	}
+}
+
+void deleteNode(struct Node* node)
+{	
+	if (node == NULL)
+	{
+		return;
+	}
+	free(node->value);
+	free(node);
+}
+
+
+
+void deleteElement(struct Dictionary* dict, int key)
+{	
+	if (dict == NULL)
+	{
+		return;
+	}
+	struct Node* parent = getParent(dict, key);
+	struct Node* currentElement = getNodeForParent(dict, parent, key);
 	if (currentElement->left == NULL && currentElement->right == NULL)
 	{	
 		if (parent == NULL)
 		{
 			dict->root = NULL;
-			free(currentElement->value);
-			free(currentElement);
-			return;
 		}
-		if (parent->right == currentElement)
+		else if (parent->right == currentElement)
 		{
 			parent->right = NULL;
 		}
@@ -168,8 +199,7 @@ void deleteElement(struct Dictionary* dict, int key)
 		{
 			parent->left = NULL;
 		}
-		free(currentElement->value);
-		free(currentElement);
+		deleteNode(currentElement);
 		return;
 	}
 	if (currentElement->left == NULL && currentElement->right != NULL)
@@ -177,11 +207,8 @@ void deleteElement(struct Dictionary* dict, int key)
 		if (parent == NULL)
 		{
 			dict->root = currentElement->right;
-			free(currentElement->value);
-			free(currentElement);
-			return;
 		}
-		if (parent->left == currentElement)
+		else if (parent->left == currentElement)
 		{
 			parent->left = currentElement->right;
 		}
@@ -189,8 +216,7 @@ void deleteElement(struct Dictionary* dict, int key)
 		{
 			parent->right = currentElement->right;
 		}
-		free(currentElement->value);
-		free(currentElement);
+		deleteNode(currentElement);
 		return;
 	}
 	if (currentElement->left != NULL && currentElement->right == NULL)
@@ -198,11 +224,8 @@ void deleteElement(struct Dictionary* dict, int key)
 		if (parent == NULL)
 		{
 			dict->root = currentElement->left;
-			free(currentElement->value);
-			free(currentElement);
-			return;
 		}
-		if (parent->left == currentElement)
+		else if (parent->left == currentElement)
 		{
 			parent->left = currentElement->left;
 		}
@@ -210,52 +233,25 @@ void deleteElement(struct Dictionary* dict, int key)
 		{
 			parent->right = currentElement->left;
 		}
-		free(currentElement->value);
-		free(currentElement);
+		deleteNode(currentElement);
 		return;
 	}
-	struct Leaf* maxLeftPar = currentElement;
-	struct Leaf* maxLeft = currentElement->left;
-	found = false;
-	while (!found)
+	struct Node* maxLeft = getMaxLeftNode(currentElement);
+	maxLeft->right = currentElement->right;
+	maxLeft->left = currentElement->left;
+	if (parent == NULL)
 	{
-		if (maxLeft->right == NULL)
-		{
-			found = true;
-		}
-		else
-		{
-			maxLeftPar = maxLeft;
-			maxLeft = maxLeft->right;
-		}
+		dict->root = maxLeft;
 	}
-	currentElement->key = maxLeft->key;
-	strcpy(currentElement->value, maxLeft->value);
-	if (maxLeft->left == NULL)
-	{	
-		if (maxLeftPar == currentElement)
-		{
-			maxLeftPar->left = NULL;
-		}
-		else
-		{
-			maxLeftPar->right = NULL;
-		}
-		free(maxLeft->value);
-		free(maxLeft);
-		return;
-	}
-	if (maxLeftPar == currentElement)
+	else if (parent->left == currentElement)
 	{
-		maxLeftPar->left = maxLeft->left;
+		parent->left = maxLeft;
 	}
 	else
 	{
-		maxLeftPar->right = maxLeft->left;
+		parent->right = maxLeft;
 	}
-	free(maxLeft->value);
-	free(maxLeft);
-	return;
+	deleteNode(currentElement);
 }
 
 void deleteDict(struct Dictionary** dict)
