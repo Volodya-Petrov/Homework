@@ -13,7 +13,7 @@ char* readFromFile(char fileName[])
 	}
 	FILE* fileOpen = fopen(fileName, "r");
 	char charInReal = fgetc(fileOpen);
-	while (charInReal != EOF)
+	while (!feof(fileOpen))
 	{
 		string[index] = charInReal;
 		index++;
