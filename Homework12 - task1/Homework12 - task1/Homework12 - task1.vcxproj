@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dynamicStringReader.c" />
-    <ClCompile Include="Homework12 - task1.cpp" />
+    <ClCompile Include="Homework12 - task1.c" />
     <ClCompile Include="numbersLexer.c" />
+    <ClCompile Include="testsForTask.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamicStringReader.h" />
     <ClInclude Include="numbersLexer.h" />
+    <ClInclude Include="testsForTask.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
