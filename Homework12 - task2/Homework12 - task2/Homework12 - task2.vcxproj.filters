@@ -27,6 +27,15 @@
     <ClCompile Include="readFromFile.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="ListTests.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="readFromFileTest.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="testForTask.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="comments.h">
@@ -38,9 +47,21 @@
     <ClInclude Include="readFromFile.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="ListTests.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="readFromFileTest.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="testForTask.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="task.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="test1.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

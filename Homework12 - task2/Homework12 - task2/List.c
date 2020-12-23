@@ -88,15 +88,16 @@ bool deleteElement(struct List* list, int index)
 	if (index == 0)
 	{
 		ListElement* oldElement = list->head;
-		list->length--;
 		if (length(list) == 1)
 		{
 			list->head = NULL;
 			list->tail = NULL;
+			list->length--;
 			free(oldElement);
 			return true;
 		}
 		list->head = list->head->next;
+		list->length--;
 		free(oldElement);
 		return true;
 	}

@@ -141,16 +141,23 @@
   <ItemGroup>
     <ClCompile Include="comments.c" />
     <ClCompile Include="List.c" />
+    <ClCompile Include="ListTests.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="readFromFile.c" />
+    <ClCompile Include="readFromFileTest.c" />
+    <ClCompile Include="testForTask.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="comments.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="ListTests.h" />
     <ClInclude Include="readFromFile.h" />
+    <ClInclude Include="readFromFileTest.h" />
+    <ClInclude Include="testForTask.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="task.txt" />
+    <Text Include="test1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
