@@ -18,23 +18,11 @@ typedef struct List
 
 List* createList()
 {
-	List* newList = malloc(sizeof(List));
-	if (newList == NULL)
-	{
-		return NULL;
-	}
-	newList->length = 0;
-	newList->head = NULL;
-	newList->tail = NULL;
-	return newList;
+	return calloc(1, sizeof(List));
 }
 
 int length(List* list)
 {
-	if (list->head == NULL || list->tail == NULL)
-	{
-		return 0;
-	}
 	return list->length;
 }
 
@@ -139,6 +127,7 @@ bool deleteElement(struct List* list, int index)
 				list->tail = currentElement;
 			}
 			free(oldElement);
+			list->length--;
 			return true;
 		}
 		currentIndex++;

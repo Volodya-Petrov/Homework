@@ -6,8 +6,8 @@
 
 bool addCityToCountry(Graph* graph, List** countries, bool isUsed[], int country)
 {	
-	int minDist = INT_MAX;
-	int cityWithMinDist = 0;
+	int minimumDistance = INT_MAX;
+	int cityWithMinimumDistance = 0;
 	for (int i = 0; i < length(countries[country]); i++)
 	{	
 		int city = 0;
@@ -19,17 +19,17 @@ bool addCityToCountry(Graph* graph, List** countries, bool isUsed[], int country
 			{
 				continue;
 			}
-			if (distance < minDist)
+			if (distance < minimumDistance)
 			{
-				minDist = distance;
-				cityWithMinDist = j;
+				minimumDistance = distance;
+				cityWithMinimumDistance = j;
 			}
 		}
 	}
-	if (minDist != INT_MAX)
+	if (minimumDistance != INT_MAX)
 	{	
-		isUsed[cityWithMinDist] = true;
-		append(countries[country], cityWithMinDist);
+		isUsed[cityWithMinimumDistance] = true;
+		append(countries[country], cityWithMinimumDistance);
 		return true;
 	}
 	return false;
@@ -60,6 +60,11 @@ List** getCountries(char fileName[], int* size)
 		return NULL;
 	}
 	bool* isUsed = calloc(countOfCities, sizeof(bool));
+	if (isUsed == NULL)
+	{
+		free(graph);
+		return NULL;
+	}
 	int countOfWays = 0;
 	fscanf(fileOpen, "%i", &countOfWays);
 	for (int i = 0; i < countOfWays; i++)

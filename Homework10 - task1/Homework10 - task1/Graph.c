@@ -16,9 +16,24 @@ Graph* makeGraph(int count)
 		return NULL;
 	}
 	newGraph->matrix = calloc(count, sizeof(int*));
+	if (newGraph->matrix == NULL)
+	{
+		free(newGraph);
+		return NULL;
+	}
 	for (int i = 0; i < count; i++)
 	{	
 		newGraph->matrix[i] = calloc(count, sizeof(int));
+		if (newGraph->matrix[i] == NULL)
+		{
+			for (int j = 0; j < i; j++)
+			{
+				free(newGraph->matrix[j]);
+			}
+			free(newGraph->matrix);
+			free(newGraph);
+			return NULL;
+		}
 	}
 	newGraph->vertices = count;
 	return newGraph;

@@ -41,7 +41,7 @@ bool compareArrays(List** array1, List** array2, int size)
 	return true;
 }
 
-bool test1(void)
+bool firstTestForTask(void)
 {	
 	bool result = true;
 	List** countries = initArrayOfLists(1);
@@ -67,7 +67,7 @@ bool test1(void)
 	return result;
 }
 
-bool test2()
+bool secondTestForTask()
 {
 	bool result = true;
 	List** countries = initArrayOfLists(2);
@@ -99,5 +99,5 @@ bool test2()
 
 bool testForTask(void)
 {
-	return !(!test1() + !test2());
+	return !(!firstTestForTask() + !secondTestForTask());
 }
