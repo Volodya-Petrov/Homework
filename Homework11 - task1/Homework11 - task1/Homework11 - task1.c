@@ -18,11 +18,8 @@ int main(void)
 	char* string = readFromFile("task.txt");
 	printf("Введите подстроку:\n");
 	char* substring = readString();
-	int* array = calloc(strlen(substring), sizeof(int));
-	prefixFunction(substring, array);
-	int position = findSubstring(string, substring, array);
+	int position = findSubstring(string, substring);
 	position == -1 ? printf("Образец в строке не найден\n") : printf("Позиция образца в строке - %i", position);
 	free(string);
 	free(substring);
-	free(array);
 }

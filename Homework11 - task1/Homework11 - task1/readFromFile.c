@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char* readFromFile(char fileName[])
+char* readFromFile(const char* fileName)
 {
 	int index = 0;
 	int capacity = 1;

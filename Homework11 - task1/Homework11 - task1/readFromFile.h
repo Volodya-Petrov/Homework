@@ -1,4 +1,4 @@
 #pragma once
 
 // читает данные из файла
-char* readFromFile(char fileName[]);
+char* readFromFile(const char* fileName);
