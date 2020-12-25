@@ -195,7 +195,7 @@ Node* deleteNode(Node* node, char* key)
 	return balance(node);
 }
 
-void delete(Tree* tree, int key)
+void delete(Tree* tree, char* key)
 {
 	tree->root = deleteNode(tree->root, key);
 }
