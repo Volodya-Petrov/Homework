@@ -24,12 +24,18 @@
     <ClCompile Include="Tests.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="getPosition.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Tests.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="getPosition.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,34 +13,17 @@ struct List
 {
 	struct ListElement* head;
 	struct ListElement* tail;
+	int length;
 };
 
 struct List* createList()
 {
-	struct List* newList = malloc(sizeof(struct List));
-	if (newList == NULL)
-	{
-		return NULL;
-	}
-	newList->head = NULL;
-	newList->tail = NULL;
-	return newList;
+	return calloc(1, sizeof(struct List));
 }
 
 int getLength(struct List* list)
 {
-	if (list->head == NULL)
-	{
-		return 0;
-	}
-	int result = 1;
-	struct ListElement* currentElement = list->head->next;
-	while (currentElement != list->head)
-	{
-		result++;
-		currentElement = currentElement->next;
-	}
-	return result;
+	return list->length;
 }
 
 bool append(struct List* list, int value)
@@ -51,6 +34,7 @@ bool append(struct List* list, int value)
 		return false;
 	}
 	newElement->value = value;
+	list->length++;
 	if (list->head == NULL)
 	{
 		newElement->next = newElement;
@@ -80,16 +64,31 @@ int indexOf(struct List* list, int value)
 	{
 		if (currentElement->value == value)
 		{
-			break;
+			return currentIndex;
 		}
 		currentElement = currentElement->next;
 		currentIndex++;
 	}
-	if (currentElement == list->head)
+	return -1;
+}
+
+int getValue(struct List* list, int index)
+{
+	if (index >= getLength(list) || index < 0)
 	{
-		return -1;
+		return 0;
 	}
-	return currentIndex;
+	struct ListElement* currentElement = list->head;
+	int currentIndex = 0;
+	while (true)
+	{
+		if (currentIndex == index)
+		{
+			return currentElement->value;
+		}
+		currentIndex++;
+		currentElement = currentElement->next;
+	}
 }
 
 bool deleteElement(struct List* list, int index)
@@ -110,10 +109,12 @@ bool deleteElement(struct List* list, int index)
 			list->head = NULL;
 			list->tail = NULL;
 			free(oldElement);
+			list->length--;
 			return true;
 		}
 		list->head = list->head->next;
 		list->tail->next = list->head;
+		list->length--;
 		free(oldElement);
 		return true;
 	}
@@ -130,6 +131,7 @@ bool deleteElement(struct List* list, int index)
 				list->tail = currentElement;
 			}
 			free(oldElement);
+			list->length--;
 			return true;
 		}
 		currentIndex++;
@@ -145,42 +147,4 @@ void deleteList(struct List** list)
 	}
 	free(*list);
 	*list = NULL;
-}
-
-int getPos(int count, int period)
-{
-	if (count <= 0 || period <= 0)
-	{
-		return -1;
-	}
-	struct List* list = createList();
-	if (list == NULL)
-	{
-		return -1;
-	}
-	for (int i = 1; i < count + 1; i++)
-	{
-		if (!append(list, i))
-		{
-			return -1;
-		}
-	}
-	int step = 1;
-	struct ListElement* currentElement = list->head;
-	while (getLength(list) != 1)
-	{
-		if (step == period)
-		{
-			step = 1;
-			struct ListElement* oldElement = currentElement;
-			currentElement = currentElement->next;
-			deleteElement(list, indexOf(list, oldElement->value));
-			continue;
-		}
-		currentElement = currentElement->next;
-		step++;
-	}
-	int result = currentElement->value;
-	deleteList(&list);
-	return result;
 }

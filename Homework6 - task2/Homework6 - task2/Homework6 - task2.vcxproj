@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="getPosition.c" />
     <ClCompile Include="Homework6 - task2.c" />
     <ClCompile Include="List.c" />
     <ClCompile Include="Tests.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="getPosition.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Tests.h" />
   </ItemGroup>
