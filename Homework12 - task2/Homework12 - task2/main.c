@@ -1,4 +1,5 @@
 #include "List.h"
+#include "readStateTableTest.h"
 #include "comments.h"
 #include "readFromFile.h"
 #include "ListTests.h"
@@ -11,7 +12,7 @@
 int main(void)
 {	
 	setlocale(LC_ALL, "rus");
-	if (!listTest() || !readFileTest() || !testForTask())
+	if (!listTest() || !readFileTest() || !testForTask() || !testReadStateTable())
 	{
 		printf("Тесты провалены\n");
 		return 1;

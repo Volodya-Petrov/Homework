@@ -36,6 +36,12 @@
     <ClCompile Include="testForTask.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="stateTable.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="readStateTableTest.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="comments.h">
@@ -56,12 +62,24 @@
     <ClInclude Include="testForTask.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="stateTable.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="readStateTableTest.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="task.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
     <Text Include="test1.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="stateTable.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="testStateTable.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{505cab7b-4efc-42ad-8283-07ca02972527}</ProjectGuid>
-    <RootNamespace>Homework12task2</RootNamespace>
+    <ProjectGuid>{c24afc3f-e7ef-42bc-9530-f7d167501e71}</ProjectGuid>
+    <RootNamespace>Homework7task2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,31 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="comments.c" />
-    <ClCompile Include="List.c" />
-    <ClCompile Include="ListTests.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="readFromFile.c" />
-    <ClCompile Include="readFromFileTest.c" />
-    <ClCompile Include="readStateTableTest.c" />
-    <ClCompile Include="stateTable.c" />
-    <ClCompile Include="testForTask.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="comments.h" />
-    <ClInclude Include="List.h" />
-    <ClInclude Include="ListTests.h" />
-    <ClInclude Include="readFromFile.h" />
-    <ClInclude Include="readFromFileTest.h" />
-    <ClInclude Include="readStateTableTest.h" />
-    <ClInclude Include="stateTable.h" />
-    <ClInclude Include="testForTask.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="stateTable.txt" />
-    <Text Include="testStateTable.txt" />
-    <Text Include="task.txt" />
-    <Text Include="test1.txt" />
+    <ClCompile Include="Homework7 - task2.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

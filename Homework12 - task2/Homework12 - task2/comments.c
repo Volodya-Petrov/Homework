@@ -1,5 +1,6 @@
 ﻿#include "List.h"
 #include "comments.h"
+#include "stateTable.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -16,7 +17,7 @@ int getIndex(char symbol)
 	}
 }
 
-List* getComments(char* string)
+List* getComments(const char* string)
 {	
 	if (string == NULL)
 	{
@@ -27,7 +28,8 @@ List* getComments(char* string)
 	{
 		return NULL;
 	}
-	int stateTable[4][3] = { {1, 0, 0}, {1, 2, 0}, {2, 3, 2}, {0, 3, 2} };
+	int stateTable[4][3] = { 0 };
+	readStateTable("stateTable.txt", stateTable);
 	int state = 0;
 	int index = 0;
 	int beginIndex = 0;
@@ -53,7 +55,7 @@ List* getComments(char* string)
 	return comments;
 }
 
-void printComments(List* comments, char* string)
+void printComments(List* comments, const char* string)
 {
 	for (int i = 0; i < length(comments); i++)
 	{

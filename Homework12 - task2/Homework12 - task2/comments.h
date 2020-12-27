@@ -3,7 +3,7 @@
 #include "List.h"
 
 // выдает список, в котором храняться индексы начала и конца комментария
-List* getComments(char* string);
+List* getComments(const char* string);
 
 // выводит комментарии
-void printComments(List* comments, char* string);
+void printComments(List* comments, const char* string);
