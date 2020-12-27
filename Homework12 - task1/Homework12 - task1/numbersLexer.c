@@ -3,14 +3,13 @@
 #include <string.h>
 #include <ctype.h>
 
-bool isNumber(char string[])
+bool isNumber(const char* string)
 {
 	int index = 0;
 	int state = 0;
-	char currentChar = '\0';
 	while (index != strlen(string))
 	{	
-		currentChar = string[index];
+		char currentChar = string[index];
 		switch (state)
 		{
 		case 0:

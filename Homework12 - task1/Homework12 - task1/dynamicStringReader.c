@@ -12,7 +12,7 @@ char* readString(void)
 		return NULL;
 	}
 	char charInReal = getchar();
-	while ( charInReal != '\n')
+	while (charInReal != '\n')
 	{
 		string[index] = charInReal;
 		index++;

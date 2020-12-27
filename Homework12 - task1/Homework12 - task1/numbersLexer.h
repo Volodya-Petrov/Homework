@@ -3,4 +3,4 @@
 #include <stdbool.h>
 
 // проверяет является ли строка вещественным числом
-bool isNumber(char string[]);
+bool isNumber(const char* string);
