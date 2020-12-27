@@ -41,7 +41,7 @@ bool compareArrays(List** array1, List** array2, int size)
 	return true;
 }
 
-bool firstTestForTask(void)
+bool boundaryTest(void)
 {	
 	bool result = true;
 	List** countries = initArrayOfLists(1);
@@ -67,7 +67,7 @@ bool firstTestForTask(void)
 	return result;
 }
 
-bool secondTestForTask()
+bool bigInputDataTest()
 {
 	bool result = true;
 	List** countries = initArrayOfLists(2);
@@ -99,5 +99,5 @@ bool secondTestForTask()
 
 bool testForTask(void)
 {
-	return !(!firstTestForTask() + !secondTestForTask());
+	return !(!boundaryTest() + !bigInputDataTest());
 }
