@@ -20,8 +20,8 @@ bool testAppend(void)
 		printf("Тест на добавление элемента провален, неверная длина\n");
 		result = false;
 	}
-	getValue(newList, 1, 0, testName);
-	getValue(newList, 1, 1, testNumber);
+	getValue(newList, 1, NAME, testName);
+	getValue(newList, 1, NUMBER, testNumber);
 	if (strcmp(testName, "ddd") || strcmp(testNumber, "fff"))
 	{
 		printf("Проблема с добавлением или с получением элемента\n");
@@ -45,8 +45,8 @@ bool testDelete(void)
 		printf("Тест на удаление провален, неверная длина\n");
 		result = false;
 	}
-	getValue(newList, 0, 0, testName);
-	getValue(newList, 0, 1, testNumber);
+	getValue(newList, 0, NAME, testName);
+	getValue(newList, 0, NUMBER, testNumber);
 	if (strcmp(testName, "dead") || strcmp(testNumber, "feq"))
 	{
 		printf("Неверные значение элемента, тест на удаление провален\n");
@@ -64,10 +64,10 @@ bool testChangeValue(void)
 	append(newList, "dead", "feq");
 	char testName[20] = "\0";
 	char testNumber[20] = "\0";
-	changeValue(newList, 1, 0, "fffa");
-	changeValue(newList, 1, 1, "ssa");
-	getValue(newList, 1, 0, testName);
-	getValue(newList, 1, 1, testNumber);
+	changeValue(newList, 1, NAME, "fffa");
+	changeValue(newList, 1, NUMBER, "ssa");
+	getValue(newList, 1, NAME, testName);
+	getValue(newList, 1, NUMBER, testNumber);
 	if (strcmp(testName, "fffa") || strcmp(testNumber, "ssa"))
 	{
 		printf("Неверные значение элемента, тест на изменение значений провален\n");
@@ -101,15 +101,15 @@ bool testCopy(void)
 		printf("Тест на копирование провален, неверная длина списка\n");
 		result = false;
 	}
-	getValue(testList, 0, 0, testName);
-	getValue(testList, 0, 1, testNumber);
+	getValue(testList, 0, NAME, testName);
+	getValue(testList, 0, NUMBER, testNumber);
 	if (strcmp(testName, "dead") || strcmp(testNumber, "feq"))
 	{
 		printf("Тест на копирование провален, неверное значение элемента\n");
 		result = false;
 	}
-	getValue(testList, 1, 0, testName);
-	getValue(testList, 1, 1, testNumber);
+	getValue(testList, 1, NAME, testName);
+	getValue(testList, 1, NUMBER, testNumber);
 	if (strcmp(testName, "test") || strcmp(testNumber, "xd"))
 	{
 		printf("Тест на копирование провален, неверное значение элемента\n");
@@ -125,22 +125,22 @@ bool testReadFromFile(void)
 	bool result = true;
 	struct List* testList = createList();
 	readFromFile(testList, "test.txt");
-	char testName[20] = "\0";
-	char testNumber[20] = "\0";
+	char testName[20] = "";
+	char testNumber[20] = "";
 	if (getLength(testList) != 2)
 	{
 		printf("Тест чтение с файла провален, неверная длина списка\n");
 		result = false;
 	}
-	getValue(testList, 0, 0, testName);
-	getValue(testList, 0, 1, testNumber);
+	getValue(testList, 0, NAME, testName);
+	getValue(testList, 0, NUMBER, testNumber);
 	if (strcmp(testName, "dead") || strcmp(testNumber, "feq"))
 	{
 		printf("Тест на чтение с файла провален, неверное значение элемента\n");
 		result = false;
 	}
-	getValue(testList, 1, 0, testName);
-	getValue(testList, 1, 1, testNumber);
+	getValue(testList, 1, NAME, testName);
+	getValue(testList, 1, NUMBER, testNumber);
 	if (strcmp(testName, "test") || strcmp(testNumber, "xd"))
 	{
 		printf("Тест на чтение с файла провален, неверное значение элемента\n");
@@ -157,26 +157,26 @@ bool testSort(void)
 	append(testList, "Barak", "21444");
 	append(testList, "Frank", "1337");
 	append(testList, "Abu", "1235");
-	mergeSortName(testList, 0, 2);
-	char testName[20] = "\0";
-	char testNumber[20] = "\0";
-	getValue(testList, 0, 0, testName);
-	getValue(testList, 0, 1, testNumber);
+	mergeSort(testList, 0, 2, NAME);
+	char testName[20] = "";
+	char testNumber[20] = "";
+	getValue(testList, 0, NAME, testName);
+	getValue(testList, 0, NUMBER, testNumber);
 	if (strcmp(testName, "Abu") || strcmp(testNumber, "1235"))
 	{
 		printf("Тест провален, неверное значение\n");
 		result = false;
 	}
-	getValue(testList, 1, 0, testName);
-	getValue(testList, 1, 1, testNumber);
+	getValue(testList, 1, NAME, testName);
+	getValue(testList, 1, NUMBER, testNumber);
 	if (strcmp(testName, "Barak") || strcmp(testNumber, "21444"))
 	{
 		printf("Тест провален, неверное значение\n");
 		result = false;
 	}
 
-	getValue(testList, 2, 0, testName);
-	getValue(testList, 2, 1, testNumber);
+	getValue(testList, 2, NAME, testName);
+	getValue(testList, 2, NUMBER, testNumber);
 	if (strcmp(testName, "Frank") || strcmp(testNumber, "1337"))
 	{
 		printf("Тест провален, неверное значение\n");
@@ -188,5 +188,5 @@ bool testSort(void)
 
 bool testsResult(void)
 {
-	return !testAppend() + !testDelete + !testCopy + !testChangeValue + !testDeleteList + !testSort + !testReadFromFile;
+	return !testAppend() + !testDelete() + !testCopy() + !testChangeValue() + !testDeleteList() + !testSort() + !testReadFromFile();
 }

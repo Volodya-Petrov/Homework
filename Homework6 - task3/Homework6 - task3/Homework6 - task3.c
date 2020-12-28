@@ -12,15 +12,19 @@
 int main(void)
 {	
 	setlocale(LC_ALL, "rus");
-	if (testsResult())
+/*	if (testsResult())
 	{
 		return 1;
 	}
 	else
 	{
 		printf("Тесты пройдены успешно!\n");
-	}
+	}*/
 	struct List* newList = createList();
+	if (newList == NULL)
+	{
+		return 1;
+	}
 	readFromFile(newList, "data.txt");
 	printf("Данные с файла: \n");
 	printList(newList);
@@ -38,11 +42,11 @@ int main(void)
 		switch (option)
 		{
 		case 0:
-			mergeSortName(newList, 0, getLength(newList) - 1);
+			mergeSort(newList, 0, getLength(newList) - 1, NAME);
 			exit = true;
 			break;
 		case 1:
-			mergeSortNumber(newList, 0, getLength(newList) - 1);
+			mergeSort(newList, 0, getLength(newList) - 1, NUMBER);
 			exit = true;
 		default:
 			printf("Введены некорректные данные, повтори попытку\n");

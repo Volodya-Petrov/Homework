@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 
 struct ListElement
-{	
+{
 	char name[20];
 	char number[20];
 	struct ListElement* next;
@@ -13,195 +14,115 @@ struct ListElement
 struct List
 {
 	struct ListElement* head;
+	struct ListElement* tail;
+	int length;
 };
 
 struct List* createList()
 {
-	struct List* newList = malloc(sizeof(struct List));
-	if (newList == NULL)
-	{
-		return NULL;
-	}
-	newList->head = NULL;
-	return newList;
-}
-
-int helperGetLength(struct ListElement* element)
-{
-	if (element->next == NULL)
-	{
-		return 1;
-	}
-	return 1 + helperGetLength(element->next);
+	return calloc(1, sizeof(struct List));
 }
 
 int getLength(struct List* list)
 {
-	if (list->head == NULL)
-	{
-		return 0;
-	}
-	return helperGetLength(list->head);
-}
-
-bool helperAppend(struct ListElement* element, char name[], char number[])
-{
-	if (element->next == NULL)
-	{
-		struct ListElement* newElement = malloc(sizeof(struct ListElement));
-		if (newElement == NULL)
-		{
-			return false;
-		}
-		strcpy(newElement->name, name);
-		strcpy(newElement->number, number);
-		newElement->next = NULL;
-		element->next = newElement;
-		return true;
-	}
-	return helperAppend(element->next, name, number);
+	return list->length;
 }
 
 bool append(struct List* list, char name[], char number[])
 {
-	if (list->head == NULL)
-	{
-		struct ListElement* newElement = malloc(sizeof(struct ListElement));
-		if (newElement == NULL)
-		{
-			return false;
-		}
-		strcpy(newElement->name, name);
-		strcpy(newElement->number, number);
-		newElement->next = NULL;
-		list->head = newElement;
-		return true;
-	}
-	return helperAppend(list->head, name, number);
-}
-
-bool helperDelete(struct ListElement* element, int indexToDelete, int currentIndex)
-{
-	if (element->next == NULL)
+	struct ListElement* newElement = malloc(sizeof(struct ListElement));
+	if (newElement == NULL)
 	{
 		return false;
 	}
-	if (indexToDelete - currentIndex == 1)
+	list->length++;
+	newElement->next = NULL;
+	strcpy(newElement->name, name);
+	strcpy(newElement->number, number);
+	if (list->head == NULL)
 	{
-		struct ListElement* oldElement = element->next;
-		element->next = element->next->next;
-		free(oldElement);
+		list->head = newElement;
+		list->tail = newElement;
 		return true;
 	}
-	return helperDelete(element->next, indexToDelete, currentIndex + 1);
+	list->tail->next = newElement;
+	list->tail = newElement;
+	return true;
+}
+
+struct ListElement* getParentOfElement(struct List* list, int index)
+{	
+	if (index == 0)
+	{
+		return NULL;
+	}
+	int currentIndex = 0;
+	struct ListElement* currentElement = list->head;
+	while (true)
+	{
+		if (index - 1 == currentIndex)
+		{
+			return currentElement;
+		}
+		currentElement->next;
+		currentIndex++;
+	}
+}
+
+bool getValue(struct List* list, int index, enum Contact indexInStruct, char destination[])
+{
+	if (index < 0 || index >= getLength(list))
+	{
+		return false;
+	}
+	if (indexInStruct != 1 && indexInStruct != 0)
+	{
+		return false;
+	}
+	struct ListElement* parent = getParentOfElement(list, index);
+	struct ListElement* needElement = list->head;
+	if (parent != NULL)
+	{
+		needElement = parent->next;
+	}
+	if (indexInStruct == NAME)
+	{
+		strcpy(destination, needElement->name);
+	}
+	else
+	{
+		strcpy(destination, needElement->number);
+	}
+	return true;
 }
 
 bool deleteElement(struct List* list, int index)
-{	
-	if (index < 0)
+{
+	if (index < 0 || index >= getLength(list))
 	{
 		return false;
 	}
-	if (list->head == NULL)
-	{
-		return false;
-	}
-	if (index == 0)
+	list->length--;
+	struct ListElement* parent = getParentOfElement(list, index);
+	if (parent == NULL)
 	{
 		struct ListElement* oldElement = list->head;
-		list->head = list->head->next;
+		list->head = oldElement->next;
+		if (list->head == NULL)
+		{
+			list->tail = NULL;
+		}
 		free(oldElement);
 		return true;
 	}
-	return helperDelete(list->head, index, 1);
-}
-
-bool helperGetValue(struct ListElement* element, int index, int indexInStruct, char string[], int currentIndex)
-{
-	if (currentIndex == index)
+	struct ListElement* oldElement = parent->next;
+	parent->next = oldElement->next;
+	if (list->tail == oldElement)
 	{
-		if (indexInStruct == 0)
-		{
-			strcpy(string, element->name);
-		}
-		else
-		{
-			strcpy(string, element->number);
-		}
-		return true;
+		list->tail = parent;
 	}
-	if (element->next == NULL)
-	{
-		return false;
-	}
-	return helperGetValue(element->next, index, indexInStruct, string, currentIndex + 1);
-}
-
-bool getValue(struct List* list, int index, int indexInStruct, char string[])
-{	
-	if (index < 0)
-	{
-		return false;
-	}
-	if (indexInStruct != 0 && indexInStruct != 1)
-	{
-		return false;
-	}
-	if (list->head == NULL)
-	{
-		return false;
-	}
-	return helperGetValue(list->head, index, indexInStruct, string, 0);
-}
-
-bool helperChangeValue(struct ListElement* element, int index, int indexInStruct, char string[], int currentIndex)
-{
-	if (currentIndex == index)
-	{
-		if (indexInStruct == 0)
-		{
-			strcpy(element->name, string);
-		}
-		else
-		{
-			strcpy(element->number, string);
-		}
-		return true;
-	}
-	if (element->next == NULL)
-	{
-		return false;
-	}
-	return helperChangeValue(element->next, index, indexInStruct, string, currentIndex + 1);
-}
-
-bool changeValue(struct List* list, int index, int indexInStruct, char string[])
-{
-	if (index < 0)
-	{
-		return false;
-	}
-	if (indexInStruct != 0 && indexInStruct != 1)
-	{
-		return false;
-	}
-	if (list->head == NULL)
-	{
-		return false;
-	}
-	if (index == 0)
-	{
-		if (indexInStruct == 0)
-		{
-			strcpy(list->head->name, string);
-		}
-		else
-		{
-			strcpy(list->head->number, string);
-		}
-		return true;
-	}
-	return helperChangeValue(list->head->next, index, indexInStruct, string, 1);
+	free(oldElement);
+	return true;
 }
 
 void deleteList(struct List** list)
@@ -214,25 +135,53 @@ void deleteList(struct List** list)
 	*list = NULL;
 }
 
-void copyElement(struct List* sourceList, struct List* destinitionList, int beginIndex, int endIndex, int currentIndex)
+bool changeValue(struct List* list, int index, enum Contact indexInStruct, char source[])
 {
-	if (beginIndex <= currentIndex && currentIndex <= endIndex)
+	if (index < 0 || index >= getLength(list))
 	{
-		char name[20] = "\0";
-		char number[20] = "\0";
-		getValue(sourceList, currentIndex, 0, name);
-		getValue(sourceList, currentIndex, 1, number);
-		append(destinitionList, name, number);
+		return false;
 	}
-	if (currentIndex == endIndex)
+	if (indexInStruct != 1 && indexInStruct != 0)
 	{
-		return;
+		return false;
 	}
-	copyElement(sourceList, destinitionList, beginIndex, endIndex, currentIndex + 1);
+	struct ListElement* parent = getParentOfElement(list, index);
+	struct ListElement* needElement = list->head;
+	if (parent != NULL)
+	{
+		needElement = parent->next;
+	}
+	if (indexInStruct == NAME)
+	{
+		strcpy(needElement->name, source);
+	}
+	else
+	{
+		strcpy(needElement->number, source);
+	}
+	return true;
 }
 
+void copyElement(struct List* sourceList, struct List* destinitionList, int beginIndex, int endIndex)
+{
+	int currentIndex = beginIndex;
+	struct ListElement* parent = getParentOfElement(sourceList, beginIndex);
+	struct ListElement* currentElement = sourceList->head;
+	if (parent != NULL)
+	{
+		currentElement = parent->next;
+	}
+	while (beginIndex <= currentIndex && currentIndex <= endIndex)
+	{
+		append(destinitionList, currentElement->name, currentElement->number);
+		currentIndex++;
+		currentElement = currentElement->next;
+	}
+}
+
+
 struct List* copy(struct List* list, int beginIndex, int endIndex)
-{	
+{
 	if (endIndex - beginIndex < 0)
 	{
 		return NULL;
@@ -246,18 +195,18 @@ struct List* copy(struct List* list, int beginIndex, int endIndex)
 	{
 		return NULL;
 	}
-	copyElement(list, newList, beginIndex, endIndex, 0);
+	copyElement(list, newList, beginIndex, endIndex);
 	return newList;
 }
 
+
 void printList(struct List* list)
 {
-	for (int i = 0; i < getLength(list); i++)
+	struct ListElement* currentElement = list->head;
+	while (currentElement != NULL)
 	{
-		char name[20] = "\0";
-		char number[20] = "\0";
-		getValue(list, i, 0, name);
-		getValue(list, i, 1, number);
-		printf("%s - %s\n", name, number);
+		printf("%s - %s\n", currentElement->name, currentElement->number);
+		currentElement = currentElement->next;
 	}
 }
+
