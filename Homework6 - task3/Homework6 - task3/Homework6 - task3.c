@@ -12,14 +12,14 @@
 int main(void)
 {	
 	setlocale(LC_ALL, "rus");
-/*	if (testsResult())
+	if (testsResult())
 	{
 		return 1;
 	}
 	else
 	{
 		printf("Тесты пройдены успешно!\n");
-	}*/
+	}
 	struct List* newList = createList();
 	if (newList == NULL)
 	{

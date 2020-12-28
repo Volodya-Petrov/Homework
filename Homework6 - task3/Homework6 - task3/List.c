@@ -64,7 +64,7 @@ struct ListElement* getParentOfElement(struct List* list, int index)
 		{
 			return currentElement;
 		}
-		currentElement->next;
+		currentElement = currentElement->next;
 		currentIndex++;
 	}
 }
@@ -198,6 +198,7 @@ struct List* copy(struct List* list, int beginIndex, int endIndex)
 	copyElement(list, newList, beginIndex, endIndex);
 	return newList;
 }
+
 
 
 void printList(struct List* list)
