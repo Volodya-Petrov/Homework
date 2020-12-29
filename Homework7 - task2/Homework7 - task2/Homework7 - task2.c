@@ -20,8 +20,8 @@ int main(void)
 	char* newString = calloc(2 * strlen(string), sizeof(char));
 	getPostfixForm(tree, newString);
 	printf("%s\n", newString);
-	int result = countTreeValue(tree);
-	printf("Значение дерева: %i\n", result);
+	float result = countTreeValue(tree);
+	printf("Значение дерева: %f\n", result);
 	deleteTree(&tree);
 	free(string);
 	free(newString);
