@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 
 typedef struct Node
 {
@@ -49,7 +50,7 @@ int convertToInt(const char* string, int* index)
 	return number;
 }
 
-Node* addElement(const char* string, int* index)
+Node* addNode(const char* string, int* index)
 {	
 	int length = strlen(string);
 	while (*index < length && !isdigit(string[*index]) && !isOperator(string[*index]))
@@ -80,23 +81,98 @@ Node* addElement(const char* string, int* index)
 	}
 	newElement->symbol = string[*index];
 	(*index)++;
-	newElement->left = addElement(string, index);
-	newElement->right = addElement(string, index);
+	newElement->left = addNode(string, index);
+	newElement->right = addNode(string, index);
 	return newElement;
 }
 
-Tree* createTree(const char* fileName)
+Tree* createTree(const char* string)
 {
 	Tree* tree = calloc(1, sizeof(Tree));
 	if (tree == NULL)
 	{
 		return NULL;
 	}
-	char* string = readFromFile(fileName);
 	int index = 0;
-	tree->root = addElement(string, &index);
-	free(string);
+	tree->root = addNode(string, &index);
 	return tree;
 }
 
-Tree
+void recursivePostfix(Node* node, char string[])
+{	
+	if (node == NULL)
+	{
+		return;
+	}
+	if (node->symbol == '\0')
+	{	
+		sprintf(string + strlen(string), "%i ", node->number);
+		return;
+	}
+	sprintf(string + strlen(string), "( ");
+	sprintf(string + strlen(string), "%c ", node->symbol);
+	recursivePostfix(node->left, string);
+	recursivePostfix(node->right, string);
+	sprintf(string + strlen(string), ") ");
+	return;
+}
+
+void getPostfixForm(Tree* tree, char string[])
+{
+	recursivePostfix(tree->root, string);
+}
+
+float binaryOperation(char operator, float firstNumber, float secondNumber)
+{
+	switch (operator)
+	{
+	case '+':
+		return firstNumber + secondNumber;
+	case '-':
+		return firstNumber - secondNumber;
+	case '*':
+		return firstNumber * secondNumber;
+	case '/':
+		return firstNumber / secondNumber;
+	default:
+		return 0;
+	}
+}
+
+float recursiveCounting(Node* node)
+{
+	if (node == NULL)
+	{
+		return 0;
+	}
+	if (node->symbol == '\0')
+	{
+		return (float)node->number;
+	}
+	float firstNumber = recursiveCounting(node->left);
+	float secondNumber = recursiveCounting(node->right);
+	return binaryOperation(node->symbol, firstNumber, secondNumber);
+}
+
+float countTreeValue(Tree* tree)
+{
+	return recursiveCounting(tree->root);
+}
+
+void recursiveDelete(Node* node)
+{	
+	if (node == NULL)
+	{
+		return;
+	}
+	recursiveDelete(node->left);
+	recursiveDelete(node->right);
+	free(node);
+}
+
+void deleteTree(Tree** tree)
+{
+	recursiveDelete((*tree)->root);
+	free(*tree);
+	(*tree) = NULL;
+}

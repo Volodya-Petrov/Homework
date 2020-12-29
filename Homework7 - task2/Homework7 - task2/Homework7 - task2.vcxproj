@@ -141,14 +141,17 @@
   <ItemGroup>
     <ClCompile Include="Homework7 - task2.c" />
     <ClCompile Include="readFromFile.c" />
+    <ClCompile Include="tests.c" />
     <ClCompile Include="Tree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="readFromFile.h" />
+    <ClInclude Include="tests.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="task.txt" />
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
